@@ -17,5 +17,5 @@ public interface DriverService {
 	List<Driver> viewBestDriver(String uuid)throws DriverException,CurrentUserSessionException;
 	
 	Driver viewDriver(Integer driverId,String uuid)throws DriverException,CurrentUserSessionException;
-	
+	List<Driver> viewAllDriver();
 }

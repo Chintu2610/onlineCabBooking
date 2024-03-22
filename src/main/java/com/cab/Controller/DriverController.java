@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.cab.Exception.DriverException;
 import com.cab.Model.Driver;
 import com.cab.Service.DriverService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/driver")
 public class DriverController {
@@ -51,5 +53,13 @@ public class DriverController {
 	public ResponseEntity<Driver> viewDriver(@RequestParam("driverId") Integer driverId,@RequestParam("uuid")String uuid) throws DriverException, CurrentUserSessionException{
 		return new ResponseEntity<Driver>(driverService.viewDriver(driverId, uuid),HttpStatus.OK);
 	}
+	
+	@GetMapping("/AllDriver")
+    public ResponseEntity<List<Driver>> allDrivers() throws DriverException, CurrentUserSessionException {
+        List<Driver> allDrivers = driverService.viewAllDriver();
+        return new ResponseEntity<>(allDrivers, HttpStatus.OK);
+    }
+	
+	
 }	
 

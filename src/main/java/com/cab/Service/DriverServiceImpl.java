@@ -37,6 +37,9 @@ public class DriverServiceImpl implements DriverService{
 	@Autowired
 	private CurrentUserSessionRepo currRepo;
 	
+	@Autowired
+	private DriverRepo drvRepo;
+	
 	
 	@Override
 	public Driver insertDriver(Driver driver) throws DriverException {
@@ -140,6 +143,14 @@ public class DriverServiceImpl implements DriverService{
 			throw new CurrentUserSessionException("User is Not Logged In");
 		}
 	}
+
+	@Override
+	public List<Driver> viewAllDriver() {
+		List<Driver> validCustomer= drvRepo.getAllDrivers();
+		return validCustomer;
+	}
+
+	
 
 	
 	
