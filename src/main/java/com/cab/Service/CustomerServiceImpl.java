@@ -121,8 +121,21 @@ public class CustomerServiceImpl implements CustomerService{
 		}
 	}
 
-	
-
-	
-
+	public Customer viewCustomerProfile(Integer customerId, String uuid)
+			throws CustomerException, CurrentUserSessionException {
+		// TODO Auto-generated method stub
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole1(uuid);
+		if(validCustomer.isPresent()) {
+			Optional<Customer> cust = customerRepo.findById(customerId);
+			if(cust.isPresent()) {
+				 return cust.get();
+			}
+			else {
+				throw new CustomerException("Customer not found with this details");
+			}
+		}
+		else {
+			throw new CurrentUserSessionException("Customer is Not Logged In");
+		}
+	}
 }

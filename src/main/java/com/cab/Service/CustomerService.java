@@ -19,6 +19,7 @@ public interface CustomerService {
 	List<Customer> viewCustomer(String uuid)  throws CustomerException, CurrentUserSessionException;
 	
 	Customer viewCustomer(Integer customerId, String uuid) throws CustomerException, CurrentUserSessionException;
+	Customer viewCustomerProfile(Integer customerId, String uuid) throws CustomerException, CurrentUserSessionException;
 	
 
 	

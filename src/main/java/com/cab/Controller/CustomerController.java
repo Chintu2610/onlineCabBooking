@@ -53,4 +53,8 @@ public class CustomerController {
 	public ResponseEntity<Customer> viewCustomer(@RequestParam("customerId") Integer customerId,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
 		return new ResponseEntity<Customer>(customerService.viewCustomer(customerId, uuid),HttpStatus.OK);
 	}
+	@GetMapping("/viewCustomerProfile")
+	public ResponseEntity<Customer> viewCustomerProfile(@RequestParam("customerId") Integer customerId,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
+		return new ResponseEntity<Customer>(customerService.viewCustomerProfile(customerId, uuid),HttpStatus.OK);
+	}
 }
