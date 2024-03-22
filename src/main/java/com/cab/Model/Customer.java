@@ -22,12 +22,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 public class Customer extends User{
-
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer customerId;
-	
 	@OneToMany(cascade = CascadeType.PERSIST)
 	@JsonIgnore
 	private List<TripBooking> tripBooking;
