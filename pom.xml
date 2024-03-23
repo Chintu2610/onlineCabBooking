@@ -61,7 +61,17 @@
    			 <groupId>org.springframework.boot</groupId>
     		<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
+		   <dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>4.0.1</version> <!-- Or the version you prefer -->
+    <scope>provided</scope>
+	</dependency>
+			<dependency>
+    <groupId>javax.mail</groupId>
+    <artifactId>mail</artifactId>
+    <version>1.4.7</version>
+</dependency>
 	</dependencies>
 
 	<build>
