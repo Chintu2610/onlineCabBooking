@@ -3,7 +3,9 @@ package com.cab.Service;
 import java.util.List;
 
 import com.cab.Exception.CurrentUserSessionException;
+import com.cab.Exception.CustomerException;
 import com.cab.Exception.DriverException;
+import com.cab.Model.Customer;
 import com.cab.Model.Driver;
 
 public interface DriverService {
@@ -18,4 +20,8 @@ public interface DriverService {
 	
 	Driver viewDriver(Integer driverId,String uuid)throws DriverException,CurrentUserSessionException;
 	List<Driver> viewAllDriver();
+	
+	Driver GetDriverData(String username, String uuid) throws CustomerException, CurrentUserSessionException;
+	
+	
 }

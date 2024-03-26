@@ -61,9 +61,9 @@ public class DriverServiceImpl implements DriverService{
 	@Override
 	public Driver updateDriver(Driver driver, String uuid) throws DriverException, CurrentUserSessionException {
 		
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
+		Optional<Driver> validCustomer = driverRepo.findByusername(uuid);
 		if(validCustomer.isPresent()) {
-			Optional<Driver> drv = driverRepo.findByEmail(driver.getEmail());
+			Optional<Driver> drv = driverRepo.findByusername(uuid);
 			if(drv.isPresent()) {
 				Driver updatingdriver = drv.get();
 				updatingdriver.setAddress(driver.getAddress());
@@ -150,8 +150,27 @@ public class DriverServiceImpl implements DriverService{
 		return validCustomer;
 	}
 
+	@Override
+	public Driver GetDriverData(String Username, String uuid)
+			throws CustomerException, CurrentUserSessionException {
+			Optional<CurrentUserSession> validCustomer = driverRepo.findmyusername(uuid);
+			if(validCustomer.isPresent()) {
+				Optional<Driver> cust = driverRepo.findByusername(Username);
+				if(cust.isPresent()) {
+					 return cust.get();
+				}
+				else {
+					throw new CustomerException("Driver not found with this details");
+				}
+			}
+			else {
+				throw new CurrentUserSessionException("Driver is Not Logged In");
+			}
+		}
+	}
+
 	
 
 	
 	
-}
+
