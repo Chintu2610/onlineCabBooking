@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cab.Exception.CurrentUserSessionException;
+import com.cab.Exception.CustomerException;
 import com.cab.Exception.DriverException;
+import com.cab.Model.Customer;
 import com.cab.Model.Driver;
 import com.cab.Service.DriverService;
 
@@ -35,7 +37,7 @@ public class DriverController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<Driver> update(@RequestBody Driver driver, @RequestParam("uuid") String uuid) throws DriverException, CurrentUserSessionException{
+	public ResponseEntity<Driver> update(@RequestBody Driver driver, @RequestParam("driverId") String uuid) throws DriverException, CurrentUserSessionException{
 		return new ResponseEntity<Driver>(driverService.updateDriver(driver, uuid),HttpStatus.OK);
 	}
 	
@@ -60,6 +62,9 @@ public class DriverController {
         return new ResponseEntity<>(allDrivers, HttpStatus.OK);
     }
 	
-	
+	@GetMapping("/GetDriverDetails")
+	public ResponseEntity<Driver> GetDriverDetails(@RequestParam("driverid") String username,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
+		return new ResponseEntity<Driver>(driverService.GetDriverData(username, uuid),HttpStatus.OK);
+	}
 }	
 
