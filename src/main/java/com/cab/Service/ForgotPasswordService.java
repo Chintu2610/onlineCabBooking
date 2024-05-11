@@ -18,11 +18,6 @@ public class ForgotPasswordService {
 	public boolean isEmailExists(String email) {
 		// TODO Auto-generated method stub
 		Optional<Customer> optionalUser = repository.findByEmail(email);
-//		OTPDetails otpdetails=new OTPDetails();
-//		otpdetails.setId(1);
-//		otpdetails.setName("chintu");
-//		myrepo.save(otpdetails);
-        // Check if user is present in the Optional
         return optionalUser.isPresent();
 		
 	}

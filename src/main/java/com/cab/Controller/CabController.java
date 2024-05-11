@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ import com.cab.Exception.CabException;
 import com.cab.Exception.CurrentUserSessionException;
 import com.cab.Model.Cab;
 import com.cab.Service.CabService;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/cab")
 public class CabController {
@@ -47,9 +48,18 @@ public class CabController {
 		return new ResponseEntity<List<Cab>>(cabService.viewCabsOfType(carType, uuid),HttpStatus.OK);
 	}
 	
+	@GetMapping("/getAllAvailableCab")
+	public ResponseEntity<List<Cab>> getAllAvailableCab(@RequestParam("uuid") String uuid) throws CabException, CurrentUserSessionException{
+		return new ResponseEntity<List<Cab>>(cabService.getAllAvailableCab( uuid),HttpStatus.OK);
+	}
+	
 	@GetMapping("/countCabsOfType/{carType}")
 	public ResponseEntity<Integer> countCabsOfType(@PathVariable("carType") String carType,@RequestParam("uuid") String uuid) throws CabException, CurrentUserSessionException{
 		return new ResponseEntity<Integer>(cabService.countCabsOfType(carType, uuid),HttpStatus.OK);
+	}
+	@GetMapping("/getAvailableCabByCity")
+	public ResponseEntity<List<Cab>> getAvailableCabByCity(@RequestParam("city") String city) throws CabException, CurrentUserSessionException{
+		return new ResponseEntity<List<Cab>>(cabService.getAvailableCabByCity( city),HttpStatus.OK);
 	}
 }
 

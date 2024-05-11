@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cab.Exception.CabException;
 import com.cab.Exception.CurrentUserSessionException;
 import com.cab.Exception.CustomerException;
+import com.cab.Model.Cab;
 import com.cab.Model.Customer;
 import com.cab.Service.CustomerService;
 
@@ -57,4 +59,5 @@ public class CustomerController {
 	public ResponseEntity<Customer> viewCustomerProfile(@RequestParam("customerId") Integer customerId,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
 		return new ResponseEntity<Customer>(customerService.viewCustomerProfile(customerId, uuid),HttpStatus.OK);
 	}
+	
 }

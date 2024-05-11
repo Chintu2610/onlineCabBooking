@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 public class Cab {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer cabId;
-	private String carType;
+	private String carType;	
 	private String carName;
 	private String carNumber;
 	private float perKmRate;

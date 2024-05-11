@@ -9,6 +9,8 @@ import com.cab.Exception.CurrentUserSessionException;
 import com.cab.Exception.CustomerException;
 import com.cab.Exception.TripBookingException;
 import com.cab.Model.Admin;
+import com.cab.Model.Cab;
+import com.cab.Model.Customer;
 import com.cab.Model.TripBooking;
 
 
@@ -27,4 +29,8 @@ public interface AdminService {
     List<TripBooking> getTripsCustomerwise(Integer customerId, String uuid)throws TripBookingException,CustomerException, CurrentUserSessionException;
     
     List<TripBooking> getAllTripsForDays(Integer customerId, String fromDateTime, String toDateTime, String uuid)throws TripBookingException,CustomerException, CurrentUserSessionException;
+
+	Admin viewAdminProfile(Integer adminId, String uuid);
+
+	
 }

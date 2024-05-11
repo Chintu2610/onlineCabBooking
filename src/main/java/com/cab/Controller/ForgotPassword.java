@@ -46,9 +46,15 @@ public class ForgotPassword {
     	
     }
 	@RequestMapping(value = "/ValidateOtp", method = RequestMethod.POST)
-    public String ValidateOtp(@RequestParam String otp) {  
-//		int enteredOTP = Integer.parseInt(request.getParameter("otp"));
-//		int storedOTP =oTPService.StoredOpt(otp);
-        return "hi";
+    public ResponseEntity<Void> ValidateOtp(@RequestParam String otp,@RequestParam String email) {  
+		long enteredOTP=Long.parseLong(otp);
+		
+		long storedotp=oTPService.StoredOpt(email,otp);
+		if(storedotp==enteredOTP) {
+			return ResponseEntity.ok().build();
+		}else
+		{
+			return ResponseEntity.notFound().build(); 
+		}
     }
 }
