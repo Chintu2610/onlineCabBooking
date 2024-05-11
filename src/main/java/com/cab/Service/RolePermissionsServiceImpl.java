@@ -15,10 +15,10 @@ public class RolePermissionsServiceImpl implements RolePermissionsService{
 	@Override
 	public List<Rolepermissions> getRolePermissions(String role) {
 		// TODO Auto-generated method stub
-		int roleId=0;
-		if(role.equals(role))
+		int roleId=1;
+		if(role.equals("Admin"))
 		{
-			roleId=1;
+			roleId=2;
 		}
 		return repo.findPages(roleId);
 		

@@ -133,4 +133,24 @@ public class CabServiceImpl implements CabService{
 		
 	}
 
+	@Override
+	public List<Cab> getAllAvailableCab(String uuid)throws CabException, CurrentUserSessionException {
+		// TODO Auto-generated method stub
+		Optional<CurrentUserSession> validuser = currRepo.findByUuidAndRole(uuid);
+		if(validuser.isPresent()) {
+		List<Cab> allCabs = cabRepo.findAll();
+		return allCabs;
+		}
+		else {
+			throw new CurrentUserSessionException("User not login In or User is not an Admin");
+		}
+	}
+
+	@Override
+	public List<Cab> getAvailableCabByCity(String city) {
+		// TODO Auto-generated method stub
+		return cabRepo.findByCurrLocation(city);
+		
+	}
+
 }

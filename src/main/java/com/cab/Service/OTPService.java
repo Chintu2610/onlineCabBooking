@@ -43,9 +43,10 @@ public class OTPService {
 		 */
 	}
 	
-	public long StoredOpt(String email)
+	public long StoredOpt(String email,String otp)
 	{
-		OTPDetails details= otprepo.getOtp(email);
-		return details.getOtp();
+		String otp1= otprepo.getOtp(email,otp);
+		long otp2=Long.parseLong(otp1);
+		return otp2;
 	}
 }

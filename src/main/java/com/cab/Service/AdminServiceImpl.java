@@ -217,5 +217,21 @@ public class AdminServiceImpl implements AdminService{
 		}
 	}
 
+
+	@Override
+	public Admin viewAdminProfile(Integer adminId, String uuid) {
+		// TODO Auto-generated method stub
+		
+		Optional<Admin> admin= adminRepo.findByAdminId(adminId);
+		if (admin.isPresent()) {
+	        return admin.get();
+	    } else {
+	        // Handle the case where adminId is not found
+	        // You might want to throw an exception, return null, or handle it in some other way
+	        return null;
+	    }
+		
+	}
+
 	
 }

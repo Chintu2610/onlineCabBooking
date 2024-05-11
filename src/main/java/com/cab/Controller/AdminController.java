@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +21,11 @@ import com.cab.Exception.CurrentUserSessionException;
 import com.cab.Exception.CustomerException;
 import com.cab.Exception.TripBookingException;
 import com.cab.Model.Admin;
+import com.cab.Model.Cab;
+import com.cab.Model.Customer;
 import com.cab.Model.TripBooking;
 import com.cab.Service.AdminService;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -64,5 +67,9 @@ public class AdminController {
 	@GetMapping("/getAllTripsForDays/{fromDateTime}/{toDateTime}")
 	public ResponseEntity<List<TripBooking>> getAllTripsForDays(@RequestParam("customerId") Integer customerId,@PathVariable("fromDateTime") String fromDateTime,@PathVariable("toDateTime") String toDateTime ,@RequestParam("uuid")  String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException{
 		return new ResponseEntity<List<TripBooking>>(adminService.getAllTripsForDays(customerId, fromDateTime, toDateTime, uuid),HttpStatus.OK);
+	}
+	@GetMapping("/viewAdminProfile")
+	public ResponseEntity<Admin> viewAdminProfile(@RequestParam("adminId") Integer adminId,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
+		return new ResponseEntity<Admin>(adminService.viewAdminProfile(adminId, uuid),HttpStatus.OK);
 	}
 }  
