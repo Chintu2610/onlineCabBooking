@@ -15,6 +15,7 @@ public class BookingCabGenderServiceImpl implements BookingCabGenderService{
 	@Override
 	public BookingCabGender bookbygender( String uuid)
 			throws AdminException, CurrentUserSessionException {	
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
