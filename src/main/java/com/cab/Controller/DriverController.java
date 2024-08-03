@@ -33,6 +33,7 @@ public class DriverController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<Driver> register(@RequestBody Driver driver) throws DriverException{
+		System.out.println(driver.getCurrDriverStatus());
 		return new ResponseEntity<Driver>(driverService.insertDriver(driver),HttpStatus.CREATED);
 	}
 	

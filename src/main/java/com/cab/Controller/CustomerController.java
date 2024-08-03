@@ -33,6 +33,7 @@ public class CustomerController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer) throws CustomerException{
+		customer.setUserRole("Customer");
 		return new ResponseEntity<Customer>(customerService.insertCustomer(customer),HttpStatus.CREATED);
 	}
 	

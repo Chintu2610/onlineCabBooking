@@ -26,7 +26,8 @@ public class Cab {
 	private float perKmRate;
 	private String CurrLocation;
 	private String cabCurrStatus;
-	
+	// New field for storing image path
+    private String cabImage;
 	@OneToOne
 	@JsonIgnore
 	private Driver driver;

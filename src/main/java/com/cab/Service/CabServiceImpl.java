@@ -43,13 +43,12 @@ public class CabServiceImpl implements CabService{
 		if(validuser.isPresent()) {
 			Optional<Cab> cb = cabRepo.findByCarNumber(cab.getCarNumber());
 			if(cb.isPresent()) {
-				
 				Cab data = cb.get();
 				data.setCarName(cab.getCarName());
 				data.setCarNumber(cab.getCarNumber());
 				data.setCarType(cab.getCarType());
 				data.setPerKmRate(cab.getPerKmRate());
-				
+				data.setCabImage(cab.getCabImage());
 				return cabRepo.save(data);
 				
 			}
@@ -134,16 +133,13 @@ public class CabServiceImpl implements CabService{
 	}
 
 	@Override
-	public List<Cab> getAllAvailableCab(String uuid)throws CabException, CurrentUserSessionException {
+	public List<Cab> getAllAvailableCab()throws CabException, CurrentUserSessionException {
 		// TODO Auto-generated method stub
-		Optional<CurrentUserSession> validuser = currRepo.findByUuidAndRole(uuid);
-		if(validuser.isPresent()) {
+//		Optional<CurrentUserSession> validuser = currRepo.findByUuidAndRole(uuid);
+//		if(validuser.isPresent()) {
 		List<Cab> allCabs = cabRepo.findAll();
 		return allCabs;
-		}
-		else {
-			throw new CurrentUserSessionException("User not login In or User is not an Admin");
-		}
+
 	}
 
 	@Override

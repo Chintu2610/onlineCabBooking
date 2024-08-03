@@ -18,7 +18,7 @@ import com.cab.Model.CurrentUserSession;
 import com.cab.Model.UserLoginDTO;
 import com.cab.Service.UserLoginService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/Userlogin")
 public class LoginController {
@@ -28,8 +28,10 @@ public class LoginController {
 	
 	@PostMapping("/Login")
 	public ResponseEntity<CurrentUserSession> loginHandler(@RequestBody UserLoginDTO dto) throws CustomerException, AdminException {
-		return new ResponseEntity<CurrentUserSession>(userlogService.login(dto), HttpStatus.ACCEPTED);
+
+		return new ResponseEntity<CurrentUserSession>(userlogService.login(dto), HttpStatus.OK);
 	}	
+	
 	@GetMapping("/logout")
 	public ResponseEntity<String> logoutHandler(@RequestParam String uuid) throws CurrentUserSessionException {
 		return new ResponseEntity<String>(userlogService.LogOut(uuid), HttpStatus.OK);

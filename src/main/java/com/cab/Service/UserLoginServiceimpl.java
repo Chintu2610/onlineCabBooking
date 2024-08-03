@@ -49,6 +49,7 @@ public class UserLoginServiceimpl implements UserLoginService{
 						curr.setCurrRole("Admin");
 						curr.setCurrStatus("Login Successfull");
 						curr.setCurrUserId(currAdmin.getAdminId());
+						curr.setEmail(currAdmin.getEmail());
 						return currRepo.save(curr);
 					}
 					else {
@@ -70,6 +71,7 @@ public class UserLoginServiceimpl implements UserLoginService{
 							curr.setCurrRole("Customer");
 							curr.setCurrStatus("Login Successfull");
 							curr.setCurrUserId(currCustomer.getCustomerId());
+							curr.setEmail(currCustomer.getEmail());
 							return currRepo.save(curr);
 						}
 						else {
