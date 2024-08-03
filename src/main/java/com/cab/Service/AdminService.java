@@ -10,6 +10,7 @@ import com.cab.Exception.CustomerException;
 import com.cab.Exception.TripBookingException;
 import com.cab.Model.Admin;
 import com.cab.Model.Cab;
+import com.cab.Model.CountsForAdminDashboard;
 import com.cab.Model.Customer;
 import com.cab.Model.TripBooking;
 
@@ -32,5 +33,7 @@ public interface AdminService {
 
 	Admin viewAdminProfile(Integer adminId, String uuid);
 
+	List<Admin> getAllAdmin(String email, String uuid) throws CurrentUserSessionException;
+	CountsForAdminDashboard getCountsForAdminDashboard( String uuid) throws  CurrentUserSessionException;
 	
 }

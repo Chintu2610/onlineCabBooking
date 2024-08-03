@@ -17,4 +17,5 @@ public class CurrentUserSession {
 	private String uuid;
 	private String currRole;
 	private String currStatus;
+	private String email;
 }

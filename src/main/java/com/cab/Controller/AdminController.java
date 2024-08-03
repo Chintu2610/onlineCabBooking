@@ -22,6 +22,7 @@ import com.cab.Exception.CustomerException;
 import com.cab.Exception.TripBookingException;
 import com.cab.Model.Admin;
 import com.cab.Model.Cab;
+import com.cab.Model.CountsForAdminDashboard;
 import com.cab.Model.Customer;
 import com.cab.Model.TripBooking;
 import com.cab.Service.AdminService;
@@ -71,5 +72,13 @@ public class AdminController {
 	@GetMapping("/viewAdminProfile")
 	public ResponseEntity<Admin> viewAdminProfile(@RequestParam("adminId") Integer adminId,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
 		return new ResponseEntity<Admin>(adminService.viewAdminProfile(adminId, uuid),HttpStatus.OK);
+	}
+	@GetMapping("/getAllAdmin")
+	public ResponseEntity<List<Admin>> getAllAdmin(@RequestParam("email") String email,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
+		return new ResponseEntity<List<Admin>>(adminService.getAllAdmin(email, uuid),HttpStatus.OK);
+	}
+	@GetMapping("/getCountsForAdminDashboard")
+	public ResponseEntity<CountsForAdminDashboard> getCountsForAdminDashboard(@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
+		return new ResponseEntity<CountsForAdminDashboard>(adminService.getCountsForAdminDashboard( uuid),HttpStatus.OK);
 	}
 }  

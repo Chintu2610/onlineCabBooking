@@ -73,7 +73,8 @@ public class DriverServiceImpl implements DriverService{
 				updatingdriver.setUserName(driver.getUserName());
 				updatingdriver.setLicenceNo(driver.getLicenceNo());
 				updatingdriver.setCab(driver.getCab());
-				
+				updatingdriver.setCurrLocation(driver.getCurrLocation());
+				updatingdriver.setCurrDriverStatus(driver.getCurrDriverStatus());
 				 return driverRepo.save(updatingdriver);
 			}
 			else {
@@ -116,7 +117,8 @@ public class DriverServiceImpl implements DriverService{
 			}
 		}
 		if(bestDriver.isEmpty()) {
-			throw new DriverException("No Best Driver Present");
+//			throw new DriverException("No Best Driver Present");
+			return null;
 		}
 		else {
 			Collections.sort(bestDriver,(a,b)-> Float.compare(b.getRating(), a.getRating()));

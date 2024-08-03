@@ -28,4 +28,7 @@ public class TripBookingDTO {
 	private float perKmRate;
 	
 	private float fare;
+	private double price;
+	private int driverId;
+	
 }
