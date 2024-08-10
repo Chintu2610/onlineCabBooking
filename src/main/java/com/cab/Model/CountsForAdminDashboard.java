@@ -6,6 +6,23 @@ public class CountsForAdminDashboard {
 	private int noOfBookingsLastMonth;
 	private int noOfDrivers;
 	private int noOfUserRegisteredLastMonth;
+	private int noOfCab;
+	public CountsForAdminDashboard(int noOfUserRegistered, int noOfBookings, int noOfBookingsLastMonth, int noOfDrivers,
+			int noOfUserRegisteredLastMonth, int noOfCab) {
+		super();
+		this.noOfUserRegistered = noOfUserRegistered;
+		this.noOfBookings = noOfBookings;
+		this.noOfBookingsLastMonth = noOfBookingsLastMonth;
+		this.noOfDrivers = noOfDrivers;
+		this.noOfUserRegisteredLastMonth = noOfUserRegisteredLastMonth;
+		this.noOfCab = noOfCab;
+	}
+	public int getNoOfCab() {
+		return noOfCab;
+	}
+	public void setNoOfCab(int noOfCab) {
+		this.noOfCab = noOfCab;
+	}
 	public CountsForAdminDashboard() {
 		super();
 		// TODO Auto-generated constructor stub
