@@ -18,7 +18,8 @@ public interface AdminRepo extends JpaRepository<Admin, Integer>{
     @Query(value = "SELECT (SELECT COUNT(*) FROM customer) AS noOfUserRegistered, " +
             "(SELECT COUNT(*) FROM trip_booking) AS noOfBookings, " +
             "(SELECT COUNT(*) FROM trip_booking WHERE MONTH(from_date_time) = MONTH(CURRENT_DATE)) AS noOfBookingsLastMonth, " +
-            "(SELECT COUNT(*) FROM driver) AS noOfDrivers " ,
+            "(SELECT COUNT(*) FROM driver) AS noOfDrivers, " +
+            "(SELECT COUNT(*) FROM cab) AS noOfCab " ,
             nativeQuery = true)
     List<Object[]> getCountsForAdminDashboard();
 

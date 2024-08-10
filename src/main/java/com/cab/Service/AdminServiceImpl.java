@@ -231,7 +231,7 @@ public class AdminServiceImpl implements AdminService {
 		            counts.setNoOfBookings(((Number) row[1]).intValue());
 		            counts.setNoOfBookingsLastMonth(((Number) row[2]).intValue());
 		            counts.setNoOfDrivers(((Number) row[3]).intValue());
-		            counts.setNoOfUserRegisteredLastMonth(((Number) row[4]).intValue());
+		            counts.setNoOfCab(((Number) row[4]).intValue());
 		            return counts;
 		        }
 		        return null; // Or handle this case as needed}
