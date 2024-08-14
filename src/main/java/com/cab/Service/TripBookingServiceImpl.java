@@ -5,10 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.cab.Exception.CabException;
 import com.cab.Exception.CurrentUserSessionException;
 import com.cab.Exception.TripBookingException;
@@ -81,7 +79,7 @@ public class TripBookingServiceImpl implements TripBookingService{
 	        }
 	        Customer customer = cust.get();
 
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 	        LocalDateTime fromDT = LocalDateTime.parse(tripBooking.getFromDateTime(), formatter);
 	        LocalDateTime toDT = LocalDateTime.parse(tripBooking.getToDateTime(), formatter);
 
@@ -92,23 +90,40 @@ public class TripBookingServiceImpl implements TripBookingService{
 	            Optional<Cab> addCab = cabRepo.findById(cabId);
 	            if (addCab.isPresent()) {
 	                Cab newCab = addCab.get();
-	                if (newCab.getCabCurrStatus().equalsIgnoreCase("Available") &&
-	                        newCab.getCurrLocation().equalsIgnoreCase(tripBooking.getPickupLocation())) {
-	                    newCab.setCabCurrStatus("Pending");
+	                //if (newCab.getCabCurrStatus().equalsIgnoreCase("Available") &&
+	                       // newCab.getCurrLocation().equalsIgnoreCase(tripBooking.getPickupLocation())) {
+	                if (newCab.getCabCurrStatus().equalsIgnoreCase("Available") ) {
+	                	  
+	         	            
+	         	             
+	         	            List<Driver> allDrivers = driverRepo.findByCurrDriverStatus( "available");
+	         	            if (allDrivers.isEmpty()) {
+	         	                throw new TripBookingException("No driver is available for this trip.");
+	         	            } else {
+	         	            	
+	         	                Driver assignDriver = allDrivers.get(0);
+	         	                assignDriver.setCurrDriverStatus("Booked");
+	         	                assignDriver.setCab(newCab);
+	         	               newCab.setDriver(assignDriver);
+	         	              newCab.setCabCurrStatus("Booked");
+	         	                cabRepo.save(newCab);
+	         	                driverRepo.save(assignDriver);
+	         	                customerRepo.save(customer);	         	                
+	         	            	         	        
+	                    
 	                    tripBooking.setCab(newCab);
 	                    tripBooking.setCustomer(customer);
+	                    tripBooking.setDriver(assignDriver);
 	                    tripBooking.setCurrStatus("Pending");
-	                    tripBooking.setFromDateTime(fromDT.format(formatter));
-	                    tripBooking.setToDateTime(toDT.format(formatter));
-	                    
-	                    TripBooking savedTripBooking = tripBookingRepo.save(tripBooking);
-	                    
+	                    tripBooking.setFromDateTime(fromDT.toString());
+	                    tripBooking.setToDateTime(toDT.toString());
+	                    TripBooking savedTripBooking = tripBookingRepo.save(tripBooking);	                    
 	                    // Ensure the saved trip booking is correctly added to the customer's list
 	                    allTripByCustomer.add(savedTripBooking);
 	                    customer.setTripBooking(allTripByCustomer);
-	                    customerRepo.save(customer);
-	                    
+	                    customerRepo.save(customer);	                   
 	                    return savedTripBooking;
+	         	            }
 	                } else {
 	                    throw new CabException("This Cab is not available currently for location or availability purpose");
 	                }
@@ -134,7 +149,7 @@ public class TripBookingServiceImpl implements TripBookingService{
 	        return false; 
 	    }
 	    
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 	    LocalDateTime newTripFromDT = LocalDateTime.parse(newTripBooking.getFromDateTime(), formatter);
 	    LocalDateTime newTripToDT = LocalDateTime.parse(newTripBooking.getToDateTime(), formatter);
 	    for (TripBooking existingTripBooking : existingTrips) {

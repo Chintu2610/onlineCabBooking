@@ -21,6 +21,8 @@ public interface CabService {
 	List<Cab> getAllAvailableCab() throws CabException, CurrentUserSessionException;
 
 	List<Cab> getAvailableCabByCity(String city);
+
+	Cab getSingleCabDetails(String cabId);
 	
 	
 }

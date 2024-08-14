@@ -52,7 +52,7 @@ public class CabController {
 	                // Resolve the full path to the image file
 //	                String uploadDirectory = System.getProperty("user.dir") + "/src/main/webapp/assets/cab-images";
 	                //String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBooking\\Frontend-Online-Cab-Booking\\Frontend-Online-Cab-Booking-Application_18_06\\Frontend-Online-Cab-Booking-Application\\assets\\cab-images";
-	                String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\EcommerceReactApp\\CabBooking\\public\\images\\cabImages";
+	                String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
 
 		            String fileName = file.getOriginalFilename();
 		            File destFile = new File(uploadDirectory + File.separator + fileName);
@@ -69,7 +69,7 @@ public class CabController {
 	                cab.setPerKmRate(perKmRate);
 	                cab.setCurrLocation(currLocation);
 	                cab.setCabCurrStatus(cabCurrStatus);
-	                cab.setCabImage("C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\EcommerceReactApp\\CabBooking\\public\\images\\cabImages"+imageUrl); // Relative path for the database
+	                cab.setCabImage(imageUrl); // Relative path for the database
 
 	                // Save the Cab object using the service
 	                Cab savedCab = cabService.insertCab(cab);
@@ -148,6 +148,10 @@ public class CabController {
 	@GetMapping("/getAllAvailableCab")
 	public ResponseEntity<List<Cab>> getAllAvailableCab() throws CabException, CurrentUserSessionException{
 		return new ResponseEntity<List<Cab>>(cabService.getAllAvailableCab( ),HttpStatus.OK);
+	}
+	@GetMapping("/getSingleCabDetails/{cabId}")
+	public ResponseEntity<Cab> getSingleCabDetails(@PathVariable("cabId") String cabId) throws CabException, CurrentUserSessionException{
+		return new ResponseEntity<Cab>(cabService.getSingleCabDetails(cabId),HttpStatus.OK);
 	}
 	
 	@GetMapping("/countCabsOfType/{carType}")

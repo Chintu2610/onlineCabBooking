@@ -21,7 +21,7 @@ import com.cab.Model.Cab;
 import com.cab.Model.TripBooking;
 import com.cab.Model.TripBookingDTO;
 import com.cab.Service.TripBookingService;
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/tripBooking")
 public class TripController {
