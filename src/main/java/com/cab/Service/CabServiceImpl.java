@@ -149,4 +149,15 @@ public class CabServiceImpl implements CabService{
 		
 	}
 
+	@Override
+	public Cab getSingleCabDetails(String cabId) {
+		// TODO Auto-generated method stub
+		Optional<Cab> optCab=cabRepo.findById(Integer.parseInt(cabId));
+		if(optCab.isPresent())
+		{
+			return optCab.get();
+		}
+		return null;
+	}
+
 }
