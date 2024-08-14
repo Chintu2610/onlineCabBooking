@@ -26,6 +26,8 @@ public class SubscriptionServiceImpl {
     @Autowired
     private SubscriptionRepository subscriptionRepository;
 
+    @Autowired
+    private OTPGenerator optservice;
     public void subscribe(String email) {
         // Check if the email is already subscribed
         if (subscriptionRepository.existsByEmail(email)) {
@@ -37,58 +39,17 @@ public class SubscriptionServiceImpl {
         Subscription subscription = new Subscription();
         subscription.setEmail(email);
         subscriptionRepository.save(subscription);
-
-        // Send confirmation email
-        sendEmailNotification(email);
+        StringBuilder emailContent = new
+        		 StringBuilder(); emailContent.append("</table>")
+        		 .append("<p>Thank you for subscribing to our Cab Services! Stay tuned for updates.</p>"
+        		  ) .append("<p>--</p>") .append("<p>Thanks & Regards,</p>")
+        		  .append("<p><strong>HR Department | WEBLABS GROUP</strong></p>")
+        		 .append("<p>Telephone: +91 9701999033</p>")
+        		  .append("<p>Email: HR@weblabstech.com</p>")
+        		  .append("<p>Website: <a href='https://www.weblabstech.com'>www.weblabstech.com</a></p>"
+        		  ) .append("</body></html>"); // Close the HTML table and body emailContent
+        optservice.sendEmailHtmlType(email,"Subscription Successfull!",emailContent.toString());
+		
     }
 
-    private void sendEmailNotification(String email) {
-        String to = email;
-
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "465");
-        props.put("mail.smtp.ssl.enable", "true");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(from, password);
-            }
-        });
-
-        try {
-            MimeMessage mimeMessage = new MimeMessage(session);
-            mimeMessage.setFrom(new InternetAddress(from));
-            mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-            mimeMessage.setSubject("Subscription Confirmation");
-
-            // HTML Content for the email
-            StringBuilder emailContent = new StringBuilder();
-        	emailContent.append("</table>")
-        	.append("<p>Thank you for subscribing to our Cab Services! Stay tuned for updates.</p>")
-        	.append("<p>--</p>")
-        	.append("<p>Thanks & Regards,</p>")
-        	.append("<p><strong>HR Department | WEBLABS GROUP</strong></p>")
-        	.append("<p>Telephone: +91 9701999033</p>")
-        	.append("<p>Email: HR@weblabstech.com</p>")
-        	.append("<p>Website: <a href='https://www.weblabstech.com'>www.weblabstech.com</a></p>")
-        	.append("</body></html>");
-        	// Close the HTML table and body
-        	emailContent
-        	            .append("</body></html>");
-
-
-            mimeMessage.setContent(emailContent.toString(), "text/html");
-
-            Transport.send(mimeMessage);
-            System.out.println("HTML Email sent successfully.");
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
 }
