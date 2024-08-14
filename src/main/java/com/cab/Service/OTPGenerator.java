@@ -46,7 +46,7 @@ public class OTPGenerator {
 		return String.valueOf(otp);
 	}
 
-	private static void sendEmail(String toEmail, String subject, String body) {
+	public void sendEmail(String toEmail, String subject, String body) {
 		Properties properties = System.getProperties();
 		properties.put("mail.smtp.host", "smtp.gmail.com");
 		properties.put("mail.smtp.port", "465");
@@ -72,4 +72,37 @@ public class OTPGenerator {
 			mex.printStackTrace();
 		}
 	}
+	public void sendEmailHtmlType(String toEmail, String subject, String body) {
+	    Properties properties = new Properties();
+	    properties.put("mail.smtp.host", "smtp.gmail.com");
+	    properties.put("mail.smtp.port", "465");
+	    properties.put("mail.smtp.ssl.enable", "true");
+	    properties.put("mail.smtp.auth", "true");
+	    properties.put("mail.smtp.socketFactory.port", "465");
+	    properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+	    properties.put("mail.smtp.ssl.protocols", "TLSv1.2"); // Use TLSv1.2 protocol
+
+	    Session session = Session.getInstance(properties, new Authenticator() {
+	        @Override
+	        protected PasswordAuthentication getPasswordAuthentication() {
+	            return new PasswordAuthentication(FROM_EMAIL, FROM_PASSWORD);
+	        }
+	    });
+
+	    try {
+	        MimeMessage message = new MimeMessage(session);
+	        message.setFrom(new InternetAddress(FROM_EMAIL));
+	        message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+	        message.setSubject(subject);
+
+	        // Set the email body to HTML format
+	        message.setContent(body, "text/html; charset=utf-8");
+
+	        // Send the email
+	        Transport.send(message);
+	    } catch (MessagingException mex) {
+	        mex.printStackTrace();
+	    }
+	}
+
 }
