@@ -26,6 +26,8 @@ public class Cab {
 	private float perKmRate;
 	private String CurrLocation;
 	private String cabCurrStatus;
+	private String area;
+	private float manufacturingYear;
 	// New field for storing image path
     private String cabImage;
 	@OneToOne
