@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 import com.cab.Model.OTPDetails;
 import com.cab.Repositary.OTPDetailsRepository;
 
-
-
-
 @Service
 public class OTPService {
 	
@@ -43,7 +40,7 @@ public class OTPService {
 		 */
 	}
 	
-	public long StoredOpt(String email,String otp)
+	public long StoredOtp(String email,String otp)
 	{
 		String otp1= otprepo.getOtp(email,otp);
 		long otp2=Long.parseLong(otp1);

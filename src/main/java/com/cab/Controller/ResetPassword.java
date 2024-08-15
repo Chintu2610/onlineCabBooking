@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 @CrossOrigin
 @RestController
-public class ForgotPassword {
+public class ResetPassword {
 	@Autowired
 	ForgotPasswordService forgotpasswordservice;
 	
@@ -49,7 +49,7 @@ public class ForgotPassword {
     public ResponseEntity<Void> ValidateOtp(@RequestParam String otp,@RequestParam String email) {  
 		long enteredOTP=Long.parseLong(otp);
 		
-		long storedotp=oTPService.StoredOpt(email,otp);
+		long storedotp=oTPService.StoredOtp(email,otp);
 		if(storedotp==enteredOTP) {
 			return ResponseEntity.ok().build();
 		}else
