@@ -42,7 +42,9 @@ public class CabController {
             @RequestParam("carName") String carName,
             @RequestParam("carNumber") String carNumber,
             @RequestParam("perKmRate") float perKmRate,
+            @RequestParam("manufacturingYear") float manufacturingYear,
             @RequestParam("currLocation") String currLocation,
+            @RequestParam("area") String area,
             @RequestParam("cabCurrStatus") String cabCurrStatus) throws CabException{
 		 try {
 	            // Save the file to the directory
@@ -70,7 +72,8 @@ public class CabController {
 	                cab.setCurrLocation(currLocation);
 	                cab.setCabCurrStatus(cabCurrStatus);
 	                cab.setCabImage(imageUrl); // Relative path for the database
-
+	                cab.setArea(area);
+	                cab.setManufacturingYear(manufacturingYear);
 	                // Save the Cab object using the service
 	                Cab savedCab = cabService.insertCab(cab);
 	                
