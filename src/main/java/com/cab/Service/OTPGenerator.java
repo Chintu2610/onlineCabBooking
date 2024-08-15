@@ -28,7 +28,7 @@ public class OTPGenerator {
 		String otp = generateOTP(toEmail);
 		String subject = "Password Reset OTP";
 		String body = "Your OTP for password reset is: " + otp
-				+ " valid for 10 minutes click here to reset password now : http://127.0.0.1:5500/html/enterOTP.html";
+				+ " valid for 10 minutes click here to reset password now : http://localhost:3000/EnterOTP?email="+toEmail;
 				
 		sendEmail(toEmail, subject, body);
 		return otp;
