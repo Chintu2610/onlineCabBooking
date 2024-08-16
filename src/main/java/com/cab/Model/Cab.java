@@ -22,6 +22,7 @@ public class Cab {
 	private Integer cabId;
 	private String carType;	
 	private String carName;
+	private String modelName;
 	private String carNumber;
 	private float perKmRate;
 	private String CurrLocation;

@@ -40,6 +40,7 @@ public class CabController {
 	public ResponseEntity<Cab> register(@RequestParam("file") MultipartFile file,
             @RequestParam("carType") String carType,
             @RequestParam("carName") String carName,
+            @RequestParam("modelName") String modelName,
             @RequestParam("carNumber") String carNumber,
             @RequestParam("perKmRate") float perKmRate,
             @RequestParam("manufacturingYear") float manufacturingYear,
@@ -68,6 +69,7 @@ public class CabController {
 	                cab.setCarType(carType);
 	                cab.setCarName(carName);
 	                cab.setCarNumber(carNumber);
+	                cab.setModelName(modelName);
 	                cab.setPerKmRate(perKmRate);
 	                cab.setCurrLocation(currLocation);
 	                cab.setCabCurrStatus(cabCurrStatus);
