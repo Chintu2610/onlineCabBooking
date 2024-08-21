@@ -51,19 +51,12 @@ public class CabController {
 	            // Save the file to the directory
 	            if (!file.isEmpty()) {
 	                byte[] bytes = file.getBytes();
-
-	                // Resolve the full path to the image file
-//	                String uploadDirectory = System.getProperty("user.dir") + "/src/main/webapp/assets/cab-images";
-	                //String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBooking\\Frontend-Online-Cab-Booking\\Frontend-Online-Cab-Booking-Application_18_06\\Frontend-Online-Cab-Booking-Application\\assets\\cab-images";
 	                String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
-
 		            String fileName = file.getOriginalFilename();
 		            File destFile = new File(uploadDirectory + File.separator + fileName);
 		            file.transferTo(destFile);
-
 		            // Set the imageUrl to the file name
 		            String imageUrl = fileName;
-
 	                // Create a new Cab instance
 	                Cab cab = new Cab();
 	                cab.setCarType(carType);
@@ -90,11 +83,6 @@ public class CabController {
 	        }
 	}
 	
-//	@PutMapping("/update")
-//	public ResponseEntity<Cab> update(@RequestBody Cab cab,@RequestParam("uuid") String uuid) throws CabException, CurrentUserSessionException{
-//		return new ResponseEntity<Cab>(cabService.updateCab(cab, uuid),HttpStatus.OK);
-//	}
-	
 	 @PutMapping("/update")
 	    public ResponseEntity<Cab> update(@RequestParam("cabId") int cabId,
 	                                      @RequestParam("carType") String carType,
@@ -103,18 +91,19 @@ public class CabController {
 	                                      @RequestParam("perKmRate") float perKmRate,
 	                                      @RequestParam("currLocation") String currLocation,
 	                                      @RequestParam("cabCurrStatus") String cabCurrStatus,
+	                                      @RequestParam("area") String area,
+	                                      @RequestParam("manufacturingYear") String manufacturingYear,
+	                                      @RequestParam("modelName") String modelName,
 	                                      @RequestParam(value = "carImage", required = false) MultipartFile file,
 	                                      @RequestParam("uuid") String uuid) throws CabException, CurrentUserSessionException {
 		 try {
 	            // Save the file to the directory
-	            if (!file.isEmpty()) {
-		 String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBooking\\Frontend-Online-Cab-Booking\\Frontend-Online-Cab-Booking-Application_18_06\\Frontend-Online-Cab-Booking-Application\\assets\\cab-images";
-
-         String fileName = file.getOriginalFilename();
+	            if (file!=null &&!file.isEmpty()) {
+	     String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
+	     String fileName = file.getOriginalFilename();
          File destFile = new File(uploadDirectory + File.separator + fileName);
          file.transferTo(destFile);
          String imageUrl = fileName;
-         
 	        Cab cab = new Cab();
 	        cab.setCabId(cabId);
 	        cab.setCarType(carType);
@@ -124,32 +113,39 @@ public class CabController {
 	        cab.setCurrLocation(currLocation);
 	        cab.setCabCurrStatus(cabCurrStatus);
 	        cab.setCabImage(imageUrl);
-	        Cab updatedCab = cabService.updateCab(cab, uuid);
-	            
+	        cab.setArea(area);
+	        cab.setModelName(modelName);
+	        cab.setManufacturingYear(Float.parseFloat(manufacturingYear) );
+	        Cab updatedCab = cabService.updateCab(cab, uuid); 
 	        return new ResponseEntity<>(updatedCab, HttpStatus.OK);
 	            }
 	        else {
-                return ResponseEntity.badRequest().build(); // File is empty
+	        	Cab cab = new Cab();
+		        cab.setCabId(cabId);
+		        cab.setCarType(carType);
+		        cab.setCarName(carName);
+		        cab.setCarNumber(carNumber);
+		        cab.setPerKmRate(perKmRate);
+		        cab.setCurrLocation(currLocation);
+		        cab.setCabCurrStatus(cabCurrStatus);
+		        cab.setArea(area);
+		        cab.setModelName(modelName);
+		        Cab updatedCab = cabService.updateCab(cab, uuid); 
+		        return new ResponseEntity<>(updatedCab, HttpStatus.OK);
             }
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 	 }
-	
-
-
-	
 	@DeleteMapping("/delete")
 	public ResponseEntity<Cab> deleteCab(@RequestParam("cabId") Integer cabId,@RequestParam("uuid") String uuid) throws CabException, CurrentUserSessionException{
 		return new ResponseEntity<Cab>(cabService.deleteCab(cabId, uuid),HttpStatus.OK);
 	}
-	
 	@GetMapping("/viewCabsOfType/{carType}")
 	public ResponseEntity<List<Cab>> viewCabsOfType(@PathVariable("carType") String carType,@RequestParam("uuid") String uuid) throws CabException, CurrentUserSessionException{
 		return new ResponseEntity<List<Cab>>(cabService.viewCabsOfType(carType, uuid),HttpStatus.OK);
 	}
-	
 	@GetMapping("/getAllAvailableCab")
 	public ResponseEntity<List<Cab>> getAllAvailableCab() throws CabException, CurrentUserSessionException{
 		return new ResponseEntity<List<Cab>>(cabService.getAllAvailableCab( ),HttpStatus.OK);
@@ -158,7 +154,6 @@ public class CabController {
 	public ResponseEntity<Cab> getSingleCabDetails(@PathVariable("cabId") String cabId) throws CabException, CurrentUserSessionException{
 		return new ResponseEntity<Cab>(cabService.getSingleCabDetails(cabId),HttpStatus.OK);
 	}
-	
 	@GetMapping("/countCabsOfType/{carType}")
 	public ResponseEntity<Integer> countCabsOfType(@PathVariable("carType") String carType,@RequestParam("uuid") String uuid) throws CabException, CurrentUserSessionException{
 		return new ResponseEntity<Integer>(cabService.countCabsOfType(carType, uuid),HttpStatus.OK);

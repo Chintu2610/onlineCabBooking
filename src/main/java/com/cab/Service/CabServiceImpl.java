@@ -48,7 +48,21 @@ public class CabServiceImpl implements CabService{
 				data.setCarNumber(cab.getCarNumber());
 				data.setCarType(cab.getCarType());
 				data.setPerKmRate(cab.getPerKmRate());
+				data.setModelName(cab.getModelName()); 
+				data.setCurrLocation(cab.getCurrLocation());
+				data.setCabCurrStatus(cab.getCabCurrStatus());
+				data.setArea(cab.getArea());
+				data.setManufacturingYear(cab.getManufacturingYear());
 				data.setCabImage(cab.getCabImage());
+				data.setManufacturingYear(cab.getManufacturingYear());
+				
+//						 
+//						 manufacturingYear=0.0, cabImage=plant-1.jpg,
+//						driver=null)
+				data.setArea(cab.getArea());
+				if (cab.getCabImage() != null && !data.getCabImage().isEmpty() && !data.getCabImage().equals("null")) {
+				    data.setCabImage(cab.getCabImage());
+				}
 				return cabRepo.save(data);
 				
 			}

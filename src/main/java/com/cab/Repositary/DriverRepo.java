@@ -28,5 +28,5 @@ public interface DriverRepo extends JpaRepository<Driver, Integer>{
 	Optional<CurrentUserSession> findmyusername(@Param("uuid") String uuid);
 	
 	@Query(value ="select * from driver where driver_id =?1 ",nativeQuery=true)
-	Optional<Driver> findByusername(String username);
+	Optional<Driver> findByusername(String driverid);
 }

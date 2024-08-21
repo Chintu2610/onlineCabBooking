@@ -299,6 +299,42 @@ public class TripBookingServiceImpl implements TripBookingService{
 	}
 
 
+	@Override
+	public String cancelTrip(Integer TripBookingId, String uuid)
+			throws TripBookingException, CurrentUserSessionException {
+		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
+		if(validUser.isPresent()) {
+			Optional<TripBooking> tp = tripBookingRepo.findById(TripBookingId);
+			if(tp.isPresent()) {
+				TripBooking trip = tp.get();
+				trip.setCurrStatus("Cancelled");
+				tripBookingRepo.save(trip);
+				Customer cust = trip.getCustomer();
+				List<TripBooking> allTrip = cust.getTripBooking();
+				for(TripBooking tb : allTrip) {
+					if(tb.getTripBookingId() == trip.getTripBookingId()) {
+						tb.setCurrStatus("Cancelled");
+					}
+				}
+				customerRepo.save(cust);
+				trip.getCab().setCabCurrStatus("AVAILABLE");
+				cabRepo.save(trip.getCab());
+				trip.getDriver().setCurrDriverStatus("Available");
+				trip.getDriver().setCab(null);
+			    trip.getCab().setDriver(null);
+				driverRepo.save(trip.getDriver());
+				return "your trip is successfully cancelled.";
+			}
+			else {
+				throw new TripBookingException("No trip is booked with provided tripBookingId.");
+			}
+		}
+		else {
+			throw new CurrentUserSessionException("User is not logged in");
+		}
+	}
+
+
 	
 
 	

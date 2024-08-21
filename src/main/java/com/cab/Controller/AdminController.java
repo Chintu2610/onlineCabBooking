@@ -35,9 +35,9 @@ public class AdminController {
 	private AdminService adminService;
 	
 	
-	@PostMapping("/register")
-	public ResponseEntity<Admin> registerAdmin(@RequestBody Admin admin) throws AdminException{
-		return new ResponseEntity<Admin>(adminService.insertAdmin(admin),HttpStatus.CREATED);
+	@PostMapping("/register/{currRole}")
+	public ResponseEntity<Admin> registerAdmin(@RequestBody Admin admin, @PathVariable String currRole) throws AdminException{
+		return new ResponseEntity<Admin>(adminService.insertAdmin(admin,currRole),HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/Update")

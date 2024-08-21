@@ -7,6 +7,28 @@ public class CountsForAdminDashboard {
 	private int noOfDrivers;
 	private int noOfUserRegisteredLastMonth;
 	private int noOfCab;
+	private int noOfVendors;
+	public CountsForAdminDashboard() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public CountsForAdminDashboard(int noOfUserRegistered, int noOfBookings, int noOfBookingsLastMonth, int noOfDrivers,
+			int noOfUserRegisteredLastMonth, int noOfCab, int noOfVendors) {
+		super();
+		this.noOfUserRegistered = noOfUserRegistered;
+		this.noOfBookings = noOfBookings;
+		this.noOfBookingsLastMonth = noOfBookingsLastMonth;
+		this.noOfDrivers = noOfDrivers;
+		this.noOfUserRegisteredLastMonth = noOfUserRegisteredLastMonth;
+		this.noOfCab = noOfCab;
+		this.noOfVendors = noOfVendors;
+	}
+	public int getNoOfVendors() {
+		return noOfVendors;
+	}
+	public void setNoOfVendors(int noOfVendors) {
+		this.noOfVendors = noOfVendors;
+	}
 	public CountsForAdminDashboard(int noOfUserRegistered, int noOfBookings, int noOfBookingsLastMonth, int noOfDrivers,
 			int noOfUserRegisteredLastMonth, int noOfCab) {
 		super();
@@ -23,19 +45,8 @@ public class CountsForAdminDashboard {
 	public void setNoOfCab(int noOfCab) {
 		this.noOfCab = noOfCab;
 	}
-	public CountsForAdminDashboard() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public CountsForAdminDashboard(int noOfUserRegistered, int noOfBookings, int noOfBookingsLastMonth, int noOfDrivers,
-			int noOfUserRegisteredLastMonth) {
-		super();
-		this.noOfUserRegistered = noOfUserRegistered;
-		this.noOfBookings = noOfBookings;
-		this.noOfBookingsLastMonth = noOfBookingsLastMonth;
-		this.noOfDrivers = noOfDrivers;
-		this.noOfUserRegisteredLastMonth = noOfUserRegisteredLastMonth;
-	}
+	
+	
 	public int getNoOfUserRegistered() {
 		return noOfUserRegistered;
 	}

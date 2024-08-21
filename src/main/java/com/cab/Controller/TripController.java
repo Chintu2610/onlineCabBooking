@@ -54,6 +54,10 @@ public class TripController {
 	public ResponseEntity<String>  markCompleteTrip(@RequestParam("TripBookingId") Integer TripBookingId,@RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
 		return new ResponseEntity<String>(tripBookingService.MarkTripAsCompleted(TripBookingId, uuid),HttpStatus.OK);
 	}
+	@GetMapping("/cancelTrip")
+	public ResponseEntity<String>  cancelTrip(@RequestParam("TripBookingId") Integer TripBookingId,@RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
+		return new ResponseEntity<String>(tripBookingService.cancelTrip(TripBookingId, uuid),HttpStatus.OK);
+	}
 	
 }
 //public TripBookingDTO viewBookingById(Integer TripBookingId, String uuid)

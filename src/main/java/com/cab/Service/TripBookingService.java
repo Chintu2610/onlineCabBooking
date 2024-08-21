@@ -20,4 +20,6 @@ public interface TripBookingService {
 	TripBookingDTO viewBookingById(Integer TripBookingId,String uuid )throws TripBookingException,CabException,CurrentUserSessionException;
 	
 	String MarkTripAsCompleted(Integer TripBookingId,String uuid)throws TripBookingException,CurrentUserSessionException;;
+	String cancelTrip(Integer TripBookingId,String uuid)throws TripBookingException,CurrentUserSessionException;;
+
 }

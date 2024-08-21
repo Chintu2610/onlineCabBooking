@@ -40,17 +40,13 @@ public class AdminServiceImpl implements AdminService {
 	private CurrentUserSessionRepo currRepo;
 	
 	@Override
-	public Admin insertAdmin(Admin admin) throws AdminException {
+	public Admin insertAdmin(Admin admin,String currRole) throws AdminException {
 
-		Optional<Admin> adn = adminRepo.findByEmail(admin.getEmail());
-		if (adn.isPresent()) {
-			throw new AdminException("Admin is Already Registered");
+		
+		if (currRole.equalsIgnoreCase("admin")) {
+			return adminRepo.save(admin);
 		} else {
-			if (admin.getUserRole().equalsIgnoreCase("Admin")) {
-				return adminRepo.save(admin);
-			} else {
 				throw new AdminException("The User is not an Admin");
-			}
 		}
 	}
 
@@ -232,6 +228,7 @@ public class AdminServiceImpl implements AdminService {
 		            counts.setNoOfBookingsLastMonth(((Number) row[2]).intValue());
 		            counts.setNoOfDrivers(((Number) row[3]).intValue());
 		            counts.setNoOfCab(((Number) row[4]).intValue());
+		            counts.setNoOfVendors(((Number) row[5]).intValue());
 		            return counts;
 		        }
 		        return null; // Or handle this case as needed}
