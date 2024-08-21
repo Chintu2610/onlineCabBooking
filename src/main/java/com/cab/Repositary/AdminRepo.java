@@ -1,6 +1,7 @@
 package com.cab.Repositary;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cab.Model.Admin;
-import com.cab.Model.CountsForAdminDashboard;
+
 
 @Repository
 public interface AdminRepo extends JpaRepository<Admin, Integer>{
@@ -19,9 +20,12 @@ public interface AdminRepo extends JpaRepository<Admin, Integer>{
             "(SELECT COUNT(*) FROM trip_booking) AS noOfBookings, " +
             "(SELECT COUNT(*) FROM trip_booking WHERE MONTH(from_date_time) = MONTH(CURRENT_DATE)) AS noOfBookingsLastMonth, " +
             "(SELECT COUNT(*) FROM driver) AS noOfDrivers, " +
-            "(SELECT COUNT(*) FROM cab) AS noOfCab " ,
+            "(SELECT COUNT(*) FROM cab) AS noOfCab, "
+            + "(SELECT COUNT(*) FROM admin where user_role='vendor') AS noOfVendor " ,
             nativeQuery = true)
     List<Object[]> getCountsForAdminDashboard();
+    @Query("select a from Admin a where a.userRole = 'Vendor'")
+	List<Admin> getAllVendor();
 
 	
 }

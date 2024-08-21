@@ -38,7 +38,7 @@ public class DriverController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<Driver> update(@RequestBody Driver driver, @RequestParam("driverId") String uuid) throws DriverException, CurrentUserSessionException{
+	public ResponseEntity<Driver> update(@RequestBody Driver driver, @RequestParam("uuid") String uuid) throws DriverException, CurrentUserSessionException{
 		return new ResponseEntity<Driver>(driverService.updateDriver(driver, uuid),HttpStatus.OK);
 	}
 	

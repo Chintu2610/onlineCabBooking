@@ -17,7 +17,7 @@ import com.cab.Model.TripBooking;
 
 public interface AdminService {
 
-	Admin insertAdmin(Admin admin) throws AdminException;
+	Admin insertAdmin(Admin admin,String currRole) throws AdminException;
 	
     Admin updateAdmin(Admin admin,String uuid) throws AdminException,CurrentUserSessionException;
 	

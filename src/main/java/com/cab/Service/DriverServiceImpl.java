@@ -16,6 +16,7 @@ import com.cab.Exception.DriverException;
 import com.cab.Model.CurrentUserSession;
 import com.cab.Model.Customer;
 import com.cab.Model.Driver;
+import com.cab.Model.TripBooking;
 import com.cab.Repositary.AdminRepo;
 import com.cab.Repositary.CurrentUserSessionRepo;
 import com.cab.Repositary.CustomerRepo;
@@ -61,9 +62,9 @@ public class DriverServiceImpl implements DriverService{
 	@Override
 	public Driver updateDriver(Driver driver, String uuid) throws DriverException, CurrentUserSessionException {
 		
-		Optional<Driver> validCustomer = driverRepo.findByusername(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if(validCustomer.isPresent()) {
-			Optional<Driver> drv = driverRepo.findByusername(uuid);
+			Optional<Driver> drv = driverRepo.findById(driver.getDriverId());
 			if(drv.isPresent()) {
 				Driver updatingdriver = drv.get();
 				updatingdriver.setAddress(driver.getAddress());
@@ -94,6 +95,10 @@ public class DriverServiceImpl implements DriverService{
 			Optional<Driver> drv = driverRepo.findById(driverId);
 			if(drv.isPresent()) {
 				Driver updatingdriver = drv.get();
+				List<TripBooking> allTrips= updatingdriver.getTrips();
+				if (allTrips != null && !allTrips.isEmpty()) {
+				    tripbookingRepo.deleteAll(allTrips);
+				}
 				driverRepo.delete(updatingdriver);
 				return updatingdriver;
 			}
