@@ -31,6 +31,7 @@ public class Cab {
 	private float manufacturingYear;
 	// New field for storing image path
     private String cabImage;
+    private String ownerEmail;
 	@OneToOne
 	@JsonIgnore
 	private Driver driver;

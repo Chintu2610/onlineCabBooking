@@ -18,7 +18,7 @@ public interface CabService {
 	
 	Integer countCabsOfType(String carType,String uuid)throws CabException, CurrentUserSessionException;
 
-	List<Cab> getAllAvailableCab() throws CabException, CurrentUserSessionException;
+	List<Cab> getAllAvailableCab(String uuid) throws CabException, CurrentUserSessionException;
 
 	List<Cab> getAvailableCabByCity(String city);
 

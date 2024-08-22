@@ -147,8 +147,8 @@ public class CabController {
 		return new ResponseEntity<List<Cab>>(cabService.viewCabsOfType(carType, uuid),HttpStatus.OK);
 	}
 	@GetMapping("/getAllAvailableCab")
-	public ResponseEntity<List<Cab>> getAllAvailableCab() throws CabException, CurrentUserSessionException{
-		return new ResponseEntity<List<Cab>>(cabService.getAllAvailableCab( ),HttpStatus.OK);
+	public ResponseEntity<List<Cab>> getAllAvailableCab(@RequestParam String uuid) throws CabException, CurrentUserSessionException{
+		return new ResponseEntity<List<Cab>>(cabService.getAllAvailableCab(uuid),HttpStatus.OK);
 	}
 	@GetMapping("/getSingleCabDetails/{cabId}")
 	public ResponseEntity<Cab> getSingleCabDetails(@PathVariable("cabId") String cabId) throws CabException, CurrentUserSessionException{

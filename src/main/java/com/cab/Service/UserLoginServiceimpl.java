@@ -46,7 +46,7 @@ public class UserLoginServiceimpl implements UserLoginService{
 						String key = RandomStringUtils.randomAlphanumeric(6);
 						CurrentUserSession curr = new CurrentUserSession();
 						curr.setUuid(key);
-						curr.setCurrRole("Admin");
+						curr.setCurrRole(currAdmin.getUserRole());
 						curr.setCurrStatus("Login Successfull");
 						curr.setCurrUserId(currAdmin.getAdminId());
 						curr.setEmail(currAdmin.getEmail());

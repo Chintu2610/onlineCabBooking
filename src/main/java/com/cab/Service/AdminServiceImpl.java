@@ -53,7 +53,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public Admin updateAdmin(Admin admin, String uuid) throws AdminException, CurrentUserSessionException {
 
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if (validCustomer.isPresent()) {
 			Optional<Admin> adn = adminRepo.findByEmail(admin.getEmail());
 			if (adn.isPresent()) {
@@ -75,7 +75,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public Admin deleteAdmin(Integer adminId, String uuid) throws AdminException, CurrentUserSessionException {
 
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if (validCustomer.isPresent()) {
 			Optional<Admin> adn = adminRepo.findById(adminId);
 			if (adn.isPresent()) {
@@ -94,7 +94,7 @@ public class AdminServiceImpl implements AdminService {
 	public List<TripBooking> getAllTrips(String uuid)
 			throws AdminException, TripBookingException, CurrentUserSessionException {
 
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if (validCustomer.isPresent()) {
 			List<TripBooking> allTrips = tripbookingRepo.findAll();
 
@@ -113,7 +113,7 @@ public class AdminServiceImpl implements AdminService {
 	public List<TripBooking> getTripsCabwise(String carType, String uuid)
 			throws TripBookingException, CurrentUserSessionException {
 
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if (validCustomer.isPresent()) {
 			List<TripBooking> allTrips = tripbookingRepo.findAll();
 			if (allTrips.isEmpty()) {
@@ -139,7 +139,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<TripBooking> getTripsCustomerwise(Integer customerId, String uuid)
 			throws TripBookingException, CustomerException, CurrentUserSessionException {
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if (validCustomer.isPresent()) {
 			Optional<Customer> cust = customerRepo.findById(customerId);
 			if (cust.isPresent()) {
@@ -163,7 +163,7 @@ public class AdminServiceImpl implements AdminService {
 	public List<TripBooking> getAllTripsForDays(Integer customerId, String fromDateTime, String toDateTime, String uuid)
 			throws TripBookingException, CustomerException, CurrentUserSessionException {
 
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if (validCustomer.isPresent()) {
 			Optional<Customer> cust = customerRepo.findById(customerId);
 			if (cust.isPresent()) {
@@ -214,12 +214,19 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public CountsForAdminDashboard getCountsForAdminDashboard(String uuid) throws CurrentUserSessionException {
 		// TODO Auto-generated method stub
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		
 		if (validCustomer.isPresent()) {
-		
-		
-			List<Object[]> results =adminRepo.getCountsForAdminDashboard();
+		String role=validCustomer.get().getCurrRole();
+		List<Object[]> results=null;
+			if(role.equalsIgnoreCase("admin"))
+			{
+				 results =adminRepo.getCountsForAdminDashboard();
+			}else
+			{
+				 results =adminRepo.getCountsForVendorDashboard(validCustomer.get().getEmail());
+			}
+			
 			 if (!results.isEmpty()) {
 		            Object[] row = results.get(0);
 		            CountsForAdminDashboard counts = new CountsForAdminDashboard();
@@ -245,7 +252,7 @@ public class AdminServiceImpl implements AdminService {
 		if (!email.equals("admin@gmail.com")) {
 			return null;
 		}
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if (validCustomer.isPresent()) {
 			List<Admin> alladmin = adminRepo.findAll();
 			List<Admin> tempadmin = alladmin.stream().filter(ad -> !ad.getEmail().equals("admin@gmail.com"))

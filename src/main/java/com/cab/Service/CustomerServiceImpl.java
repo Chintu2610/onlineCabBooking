@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public Customer deleteCustomer(Integer customerId, String uuid)
 			throws CustomerException, CurrentUserSessionException {
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if(validCustomer.isPresent()) {
 			Optional<Customer> cust = customerRepo.findById(customerId);
 			if(cust.isPresent()) {
@@ -87,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public List<Customer> viewCustomer(String uuid) throws CustomerException, CurrentUserSessionException {
 		// TODO Auto-generated method stub
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if(validCustomer.isPresent()) {
 			List<Customer> viewCustomers = customerRepo.findAll();
 			if(!viewCustomers.isEmpty()) {
@@ -106,7 +106,7 @@ public class CustomerServiceImpl implements CustomerService{
 	public Customer viewCustomer(Integer customerId, String uuid)
 			throws CustomerException, CurrentUserSessionException {
 		// TODO Auto-generated method stub
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if(validCustomer.isPresent()) {
 			Optional<Customer> cust = customerRepo.findById(customerId);
 			if(cust.isPresent()) {
@@ -124,7 +124,7 @@ public class CustomerServiceImpl implements CustomerService{
 	public Customer viewCustomerProfile(Integer customerId, String uuid)
 			throws CustomerException, CurrentUserSessionException {
 		// TODO Auto-generated method stub
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole1(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRoleCustomer(uuid);
 		if(validCustomer.isPresent()) {
 			Optional<Customer> cust = customerRepo.findById(customerId);
 			if(cust.isPresent()) {
