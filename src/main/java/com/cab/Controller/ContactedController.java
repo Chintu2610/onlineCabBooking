@@ -1,10 +1,12 @@
 package com.cab.Controller;
 
 
-import com.cab.Service.SubscriptionServiceImpl;
+import com.cab.Model.Contact;
+import com.cab.Service.ContactedServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,16 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController()
 @RequestMapping("/email")
-public class SubscriptionController {
+public class ContactedController {
 
     @Autowired
-    private SubscriptionServiceImpl subscriptionService;
+    private ContactedServiceImpl contactRepository;
 
-    @PostMapping("/subscribe")
-    public void subscribe(@RequestParam String email) {
-        subscriptionService.subscribe(email);
+    @PostMapping("/contact")
+    public void contact(@RequestBody Contact details) {
+    	contactRepository.contact(details);
     }
-    
-   
 }
+
 
