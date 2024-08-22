@@ -54,7 +54,7 @@ public class CabServiceImpl implements CabService{
 				data.setArea(cab.getArea());
 				data.setManufacturingYear(cab.getManufacturingYear());
 				data.setCabImage(cab.getCabImage());
-				data.setManufacturingYear(cab.getManufacturingYear());
+				
 				
 //						 
 //						 manufacturingYear=0.0, cabImage=plant-1.jpg,

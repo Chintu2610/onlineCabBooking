@@ -12,30 +12,34 @@ import com.cab.Exception.CustomerException;
 import com.cab.Model.Admin;
 import com.cab.Model.CurrentUserSession;
 import com.cab.Model.Customer;
+import com.cab.Model.Driver;
 import com.cab.Model.UserLoginDTO;
 import com.cab.Repositary.AdminRepo;
 import com.cab.Repositary.CurrentUserSessionRepo;
 import com.cab.Repositary.CustomerRepo;
+import com.cab.Repositary.DriverRepo;
 
 @Service
-public class UserLoginServiceimpl implements UserLoginService{
+public class UserLoginServiceimpl implements UserLoginService {
 
 	@Autowired
 	private CustomerRepo customerRepo;
-	
+
 	@Autowired
 	private AdminRepo adminRepo;
-	
+
 	@Autowired
 	private CurrentUserSessionRepo currRepo;
+	@Autowired
+	private DriverRepo driverRepo;
 
 	@Override
 	public CurrentUserSession login(UserLoginDTO dto) throws CustomerException, AdminException {
 		
 			Optional<Admin> findAdmin = adminRepo.findByEmail(dto.getEmail());
 			Optional<Customer> findCustomer = customerRepo.findByEmail(dto.getEmail());
-			
-			if(findAdmin.isPresent() && findCustomer.isEmpty()) {
+			Optional<Driver> findDriver = driverRepo.findByEmail(dto.getEmail());
+			if(findAdmin.isPresent() && findCustomer.isEmpty() && findDriver.isEmpty()) {
 				Admin currAdmin = findAdmin.get();
 				Optional<CurrentUserSession> validAdminSession = currRepo.findById(currAdmin.getAdminId());
 				if(validAdminSession.isPresent()) {
@@ -57,7 +61,7 @@ public class UserLoginServiceimpl implements UserLoginService{
 					}
 				}
 			}
-			else if(findAdmin.isEmpty() && findCustomer.isPresent()){
+			else if(findAdmin.isEmpty() && findCustomer.isPresent() && findDriver.isEmpty()){
 					Customer currCustomer = findCustomer.get();
 					Optional<CurrentUserSession> validCustomerSession = currRepo.findById(currCustomer.getCustomerId());
 					if(validCustomerSession.isPresent()) {
@@ -78,6 +82,28 @@ public class UserLoginServiceimpl implements UserLoginService{
 							throw new CustomerException("Please Enter the correct Password");
 						}
 					}
+				} else if(findAdmin.isEmpty() && findCustomer.isEmpty() && findDriver.isPresent())
+				{
+					Driver currDriver = findDriver.get();
+					Optional<CurrentUserSession> validDriverSession = currRepo.findById(currDriver.getDriverId());
+					if(validDriverSession.isPresent()) {
+						throw new CustomerException("Driver is currently Login Please Logout and then try");
+					}
+					else  {
+						if(currDriver.getPassword().equals(dto.getPassword())) {
+							String key = RandomStringUtils.randomAlphanumeric(6);
+							CurrentUserSession curr = new CurrentUserSession();
+							curr.setUuid(key);
+							curr.setCurrRole("Driver");
+							curr.setCurrStatus("Login Successfull");
+							curr.setCurrUserId(currDriver.getDriverId());
+							curr.setEmail(currDriver.getEmail());
+							return currRepo.save(curr);
+						}
+						else {
+							throw new CustomerException("Please Enter the correct Password");
+						}
+					}
 				}
 			else {
 				throw new CustomerException("User is Not Registered");
@@ -88,20 +114,14 @@ public class UserLoginServiceimpl implements UserLoginService{
 	public String LogOut(String uuid) throws CurrentUserSessionException {
 		// TODO Auto-generated method stub
 		Optional<CurrentUserSession> validAdminOrCustomer = currRepo.findByUuid(uuid);
-		if(validAdminOrCustomer.isPresent()) {
-			
+		if (validAdminOrCustomer.isPresent()) {
+
 			currRepo.delete(validAdminOrCustomer.get());
 			return "User Logged Out Successfully";
-			
-		}
-		else {
+
+		} else {
 			throw new CurrentUserSessionException("User Not Logged In with this Credentials");
 		}
 	}
 
-	
-	
-	
-
-	
 }
