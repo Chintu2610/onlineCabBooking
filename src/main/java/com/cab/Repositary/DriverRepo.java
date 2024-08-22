@@ -16,6 +16,8 @@ public interface DriverRepo extends JpaRepository<Driver, Integer>{
 	Optional<Driver> findByLicenceNo(String licenceNo);
 	
 	Optional<Driver> findByEmail(String email);
+	
+	Optional<Driver> findByDriverId(String driverId);
 
 	List<Driver> findByCurrLocationAndCurrDriverStatus(String currLocation, String currDriverStatus);
 	

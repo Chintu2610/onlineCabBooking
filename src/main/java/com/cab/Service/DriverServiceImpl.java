@@ -158,11 +158,11 @@ public class DriverServiceImpl implements DriverService{
 	}
 
 	@Override
-	public Driver GetDriverData(String Username, String uuid)
+	public Driver GetDriverData(String driverid, String uuid)
 			throws CustomerException, CurrentUserSessionException {
-			Optional<CurrentUserSession> validCustomer = driverRepo.findmyusername(uuid);
+			Optional<CurrentUserSession> validCustomer =  currRepo.findByUuid(uuid);
 			if(validCustomer.isPresent()) {
-				Optional<Driver> cust = driverRepo.findByusername(Username);
+				Optional<Driver> cust = driverRepo.findByDriverId(driverid);
 				if(cust.isPresent()) {
 					 return cust.get();
 				}

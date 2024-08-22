@@ -64,8 +64,8 @@ public class DriverController {
     }
 	
 	@GetMapping("/GetDriverDetails")
-	public ResponseEntity<Driver> GetDriverDetails(@RequestParam("driverid") String username,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
-		return new ResponseEntity<Driver>(driverService.GetDriverData(username, uuid),HttpStatus.OK);
+	public ResponseEntity<Driver> GetDriverDetails(@RequestParam("driverid") String driverid,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
+		return new ResponseEntity<Driver>(driverService.GetDriverData(driverid, uuid),HttpStatus.OK);
 	}
 }	
 
