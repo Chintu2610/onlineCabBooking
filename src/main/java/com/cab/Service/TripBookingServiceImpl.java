@@ -170,7 +170,7 @@ public class TripBookingServiceImpl implements TripBookingService{
 	@Override
 	public TripBooking AssignDriverByAdmin(Integer tripBookingId, String uuid)
 	        throws TripBookingException, CabException, CurrentUserSessionException {
-	    Optional<CurrentUserSession> validUser = currRepo.findByUuidAndRole(uuid);
+	    Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
 	    if (validUser.isPresent()) {
 	        Optional<TripBooking> optionalTrip = tripBookingRepo.findById(tripBookingId);
 	        if (optionalTrip.isPresent()) {

@@ -17,10 +17,13 @@ public interface CurrentUserSessionRepo extends JpaRepository<CurrentUserSession
 	
 	Optional<CurrentUserSession> findByUuid(String uuid);
 	
-	@Query("SELECT c FROM CurrentUserSession c WHERE c.uuid = :uuid")
-	Optional<CurrentUserSession> findByUuidAndRole(@Param("uuid") String uuid);
+	@Query("SELECT c FROM CurrentUserSession c WHERE c.uuid = :uuid AND c.currRole='Admin'")
+	Optional<CurrentUserSession> findByUuidAndRoleAdmin(@Param("uuid") String uuid);
 	
 	@Query("SELECT c FROM CurrentUserSession c WHERE c.uuid = :uuid AND c.currRole = 'Customer'")
-	Optional<CurrentUserSession> findByUuidAndRole1(@Param("uuid") String uuid);
+	Optional<CurrentUserSession> findByUuidAndRoleCustomer(@Param("uuid") String uuid);
+	
+	@Query("SELECT c FROM CurrentUserSession c WHERE c.uuid = :uuid AND c.currRole = 'Vendor'")
+	Optional<CurrentUserSession> findByUuidAndRoleVendor(@Param("uuid") String uuid);
 	
 }

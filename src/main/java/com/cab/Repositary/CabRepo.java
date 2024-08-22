@@ -11,6 +11,7 @@ import com.cab.Model.Cab;
 public interface CabRepo extends JpaRepository<Cab, Integer>{
 
 	Optional<Cab> findByCarNumber(String carNumber);
+	List<Cab> findByOwnerEmail(String ownerEmail);
 	@Query("select c from Cab c where CurrLocation like %?1%")
 	List<Cab> findByCurrLocation(String currLocation);
 }

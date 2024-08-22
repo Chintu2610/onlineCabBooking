@@ -39,7 +39,7 @@ public class CabServiceImpl implements CabService{
 	@Override
 	public Cab updateCab(Cab cab, String uuid) throws CabException, CurrentUserSessionException {
 		
-		Optional<CurrentUserSession> validuser = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validuser = currRepo.findByUuid(uuid);
 		if(validuser.isPresent()) {
 			Optional<Cab> cb = cabRepo.findByCarNumber(cab.getCarNumber());
 			if(cb.isPresent()) {
@@ -78,7 +78,7 @@ public class CabServiceImpl implements CabService{
 	@Override
 	public Cab deleteCab(Integer cabId, String uuid) throws CabException, CurrentUserSessionException {
 		
-		Optional<CurrentUserSession> validuser = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validuser = currRepo.findByUuid(uuid);
 		if(validuser.isPresent()) {
 			Optional<Cab> cb = cabRepo.findById(cabId);
 			if(cb.isPresent()) {
@@ -98,7 +98,7 @@ public class CabServiceImpl implements CabService{
 	@Override
 	public List<Cab> viewCabsOfType(String carType, String uuid) throws CabException, CurrentUserSessionException {
 		
-		Optional<CurrentUserSession> validuser = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validuser = currRepo.findByUuid(uuid);
 		if(validuser.isPresent()) {
 			List<Cab> allCabs = cabRepo.findAll();
 			List<Cab> viewCabsOfType = new ArrayList<>();
@@ -122,7 +122,7 @@ public class CabServiceImpl implements CabService{
 
 	@Override
 	public Integer countCabsOfType(String carType, String uuid) throws CabException, CurrentUserSessionException {
-		Optional<CurrentUserSession> validuser = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validuser = currRepo.findByUuid(uuid);
 		if(validuser.isPresent()) {
 			List<Cab> allCabs = cabRepo.findAll();
 			List<Cab> viewCabsOfType = new ArrayList<>();
@@ -147,11 +147,18 @@ public class CabServiceImpl implements CabService{
 	}
 
 	@Override
-	public List<Cab> getAllAvailableCab()throws CabException, CurrentUserSessionException {
+	public List<Cab> getAllAvailableCab(String uuid)throws CabException, CurrentUserSessionException {
 		// TODO Auto-generated method stub
-//		Optional<CurrentUserSession> validuser = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validuser = currRepo.findByUuid(uuid);
 //		if(validuser.isPresent()) {
-		List<Cab> allCabs = cabRepo.findAll();
+		List<Cab> allCabs=null;
+		if (!validuser.isPresent() || (validuser.isPresent() && validuser.get().getCurrRole().equalsIgnoreCase("admin"))) {
+		 allCabs = cabRepo.findAll();
+		}else {
+			String email= validuser.get().getEmail();
+			allCabs = cabRepo.findByOwnerEmail(email);
+		}
+		
 		return allCabs;
 
 	}

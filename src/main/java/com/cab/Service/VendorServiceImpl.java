@@ -33,7 +33,7 @@ public class VendorServiceImpl implements VendorService{
 	private CurrentUserSessionRepo currRepo;
 	@Override
 	public List<Admin> viewAllVendor(String uuid) {
-		Optional<CurrentUserSession> validCustomer = currRepo.findByUuidAndRole(uuid);
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		
 		if (validCustomer.isPresent()) {
 		
