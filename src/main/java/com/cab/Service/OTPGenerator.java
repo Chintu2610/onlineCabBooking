@@ -72,6 +72,7 @@ public class OTPGenerator {
 			mex.printStackTrace();
 		}
 	}
+	
 	public void sendEmailHtmlType(String toEmail, String subject, String body) {
 	    Properties properties = new Properties();
 	    properties.put("mail.smtp.host", "smtp.gmail.com");

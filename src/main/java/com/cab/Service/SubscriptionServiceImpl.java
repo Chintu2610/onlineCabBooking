@@ -51,5 +51,5 @@ public class SubscriptionServiceImpl {
         optservice.sendEmailHtmlType(email,"Subscription Successfull!",emailContent.toString());
 		
     }
-
+   
 }
