@@ -64,6 +64,10 @@ public class AdminController {
 	public ResponseEntity<List<TripBooking>> getTripsCustomerwise(@RequestParam("customerId") Integer customerId,@RequestParam("uuid")  String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException{
 		return new ResponseEntity<List<TripBooking>>(adminService.getTripsCustomerwise(customerId, uuid),HttpStatus.OK);
 	}
+	@GetMapping("/getTripsDriverwise")
+	public ResponseEntity<List<TripBooking>> getTripsDriverwise(@RequestParam("driverId") Integer customerId,@RequestParam("uuid")  String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException{
+		return new ResponseEntity<List<TripBooking>>(adminService.getTripsDriverwise(customerId, uuid),HttpStatus.OK);
+	}
 	
 	@GetMapping("/getAllTripsForDays/{fromDateTime}/{toDateTime}")
 	public ResponseEntity<List<TripBooking>> getAllTripsForDays(@RequestParam("customerId") Integer customerId,@PathVariable("fromDateTime") String fromDateTime,@PathVariable("toDateTime") String toDateTime ,@RequestParam("uuid")  String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException{

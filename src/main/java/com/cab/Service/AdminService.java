@@ -35,5 +35,7 @@ public interface AdminService {
 
 	List<Admin> getAllAdmin(String email, String uuid) throws CurrentUserSessionException;
 	CountsForAdminDashboard getCountsForAdminDashboard( String uuid) throws  CurrentUserSessionException;
+
+	List<TripBooking> getTripsDriverwise(Integer driverId, String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException;
 	
 }
