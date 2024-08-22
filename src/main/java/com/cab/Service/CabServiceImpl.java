@@ -83,6 +83,7 @@ public class CabServiceImpl implements CabService{
 			Optional<Cab> cb = cabRepo.findById(cabId);
 			if(cb.isPresent()) {
 				Cab cab = cb.get();
+				cab.setDriver(null);
 				cabRepo.delete(cab);
 				return cab;
 			}
@@ -152,7 +153,7 @@ public class CabServiceImpl implements CabService{
 		Optional<CurrentUserSession> validuser = currRepo.findByUuid(uuid);
 //		if(validuser.isPresent()) {
 		List<Cab> allCabs=null;
-		if (!validuser.isPresent() || (validuser.isPresent() && validuser.get().getCurrRole().equalsIgnoreCase("admin"))) {
+		if (!validuser.isPresent() || (validuser.isPresent() && validuser.get().getCurrRole().equalsIgnoreCase("admin")) || (validuser.get().getCurrRole().equalsIgnoreCase("driver"))|| (validuser.get().getCurrRole().equalsIgnoreCase("customer"))) {
 		 allCabs = cabRepo.findAll();
 		}else {
 			String email= validuser.get().getEmail();

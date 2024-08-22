@@ -18,10 +18,12 @@ import com.cab.Model.Admin;
 import com.cab.Model.CountsForAdminDashboard;
 import com.cab.Model.CurrentUserSession;
 import com.cab.Model.Customer;
+import com.cab.Model.Driver;
 import com.cab.Model.TripBooking;
 import com.cab.Repositary.AdminRepo;
 import com.cab.Repositary.CurrentUserSessionRepo;
 import com.cab.Repositary.CustomerRepo;
+import com.cab.Repositary.DriverRepo;
 import com.cab.Repositary.TripBookingRepo;
 
 @Service
@@ -32,6 +34,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private CustomerRepo customerRepo;
+	
+	@Autowired
+	private DriverRepo driverRepo;
 
 	@Autowired
 	private TripBookingRepo tripbookingRepo;
@@ -222,7 +227,11 @@ public class AdminServiceImpl implements AdminService {
 			if(role.equalsIgnoreCase("admin"))
 			{
 				 results =adminRepo.getCountsForAdminDashboard();
-			}else
+			}else if(role.equalsIgnoreCase("driver"))
+			{
+				results =adminRepo.getCountsForDriverDashboard();
+			}
+				else
 			{
 				 results =adminRepo.getCountsForVendorDashboard(validCustomer.get().getEmail());
 			}
@@ -261,5 +270,37 @@ public class AdminServiceImpl implements AdminService {
 		} else {
 			throw new CurrentUserSessionException("Admin is Not Logged In");
 		}
+	}
+
+	@Override
+	public List<TripBooking> getTripsDriverwise(Integer driverId, String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException {
+		// TODO Auto-generated method stub
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
+		if (validCustomer.isPresent()) {
+			Optional<Driver> optionalDriver = driverRepo.findById(driverId);
+			if (optionalDriver.isPresent()) {
+				Driver driver = optionalDriver.get();
+				List<TripBooking> customerTrips = tripbookingRepo.findAll();
+				List<TripBooking> driverTrips=new ArrayList<>();
+				for(TripBooking tripBooking:customerTrips)
+				{
+					if(tripBooking.getDriver()!=null && tripBooking.getDriver().getDriverId()==driverId)
+					{
+						driverTrips.add(tripBooking);
+					}
+				}
+				if (customerTrips.isEmpty()) {
+//					throw new CustomerException("No Trip Bookked by the customer");
+					return null;
+				} else {
+					return driverTrips;
+				}
+			} else {
+				throw new CustomerException("Driver with this Credential is not present");
+			}
+		} else {
+			throw new CurrentUserSessionException("Driver is Not Logged In Or User is not Admin");
+		}
+		
 	}
 }
