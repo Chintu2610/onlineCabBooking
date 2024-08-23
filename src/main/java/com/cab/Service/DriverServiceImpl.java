@@ -60,11 +60,11 @@ public class DriverServiceImpl implements DriverService{
 	}
 
 	@Override
-	public Driver updateDriver(Driver driver, String uuid) throws DriverException, CurrentUserSessionException {
+	public Driver updateDriver(Driver driver, String uuid ,String driverId) throws DriverException, CurrentUserSessionException {
 		
 		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 		if(validCustomer.isPresent()) {
-			Optional<Driver> drv = driverRepo.findById(driver.getDriverId());
+			Optional<Driver> drv = driverRepo.findById(Integer.parseInt(driverId));
 			if(drv.isPresent()) {
 				Driver updatingdriver = drv.get();
 				updatingdriver.setAddress(driver.getAddress());
