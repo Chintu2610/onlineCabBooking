@@ -54,11 +54,6 @@ public class CabServiceImpl implements CabService{
 				data.setArea(cab.getArea());
 				data.setManufacturingYear(cab.getManufacturingYear());
 				data.setCabImage(cab.getCabImage());
-				
-				
-//						 
-//						 manufacturingYear=0.0, cabImage=plant-1.jpg,
-//						driver=null)
 				data.setArea(cab.getArea());
 				if (cab.getCabImage() != null && !data.getCabImage().isEmpty() && !data.getCabImage().equals("null")) {
 				    data.setCabImage(cab.getCabImage());
@@ -153,7 +148,11 @@ public class CabServiceImpl implements CabService{
 		Optional<CurrentUserSession> validuser = currRepo.findByUuid(uuid);
 //		if(validuser.isPresent()) {
 		List<Cab> allCabs=null;
-		if (!validuser.isPresent() || (validuser.isPresent() && validuser.get().getCurrRole().equalsIgnoreCase("admin")) || (validuser.get().getCurrRole().equalsIgnoreCase("driver"))|| (validuser.get().getCurrRole().equalsIgnoreCase("customer"))) {
+		if(!validuser.isPresent() )
+		{
+			allCabs = cabRepo.findByCabCurrStatus("Available");
+		}else
+		if ( (validuser.isPresent() && validuser.get().getCurrRole().equalsIgnoreCase("admin")) || (validuser.get().getCurrRole().equalsIgnoreCase("driver"))|| (validuser.get().getCurrRole().equalsIgnoreCase("customer"))) {
 		 allCabs = cabRepo.findAll();
 		}else {
 			String email= validuser.get().getEmail();

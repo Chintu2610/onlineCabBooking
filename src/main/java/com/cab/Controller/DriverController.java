@@ -38,8 +38,8 @@ public class DriverController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<Driver> update(@RequestBody Driver driver, @RequestParam("uuid") String uuid) throws DriverException, CurrentUserSessionException{
-		return new ResponseEntity<Driver>(driverService.updateDriver(driver, uuid),HttpStatus.OK);
+	public ResponseEntity<Driver> update(@RequestBody Driver driver, @RequestParam("uuid") String uuid,@RequestParam(value = "driverId", required = false, defaultValue = "0") String driverId) throws DriverException, CurrentUserSessionException{
+		return new ResponseEntity<Driver>(driverService.updateDriver(driver, uuid,driverId),HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete")

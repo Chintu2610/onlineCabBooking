@@ -12,7 +12,7 @@ public interface DriverService {
 
     Driver insertDriver(Driver driver)throws DriverException;
 	
-	Driver updateDriver(Driver driver,String uuid)throws DriverException,CurrentUserSessionException;
+	Driver updateDriver(Driver driver,String uuid, String driverId)throws DriverException,CurrentUserSessionException;
 	
 	Driver deleteDriver(Integer driverId, String uuid)throws DriverException,CurrentUserSessionException;
 	
