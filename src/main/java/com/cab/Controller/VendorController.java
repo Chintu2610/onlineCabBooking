@@ -33,7 +33,6 @@ import com.cab.Service.VendorService;
 @RequestMapping("/vendor")
 public class VendorController {
 
-	
 	@Autowired
 	private VendorService vendorService;
 	

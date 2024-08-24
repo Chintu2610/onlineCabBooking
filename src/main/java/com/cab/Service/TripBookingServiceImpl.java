@@ -100,8 +100,6 @@ public class TripBookingServiceImpl implements TripBookingService{
 	                       // newCab.getCurrLocation().equalsIgnoreCase(tripBooking.getPickupLocation())) {
 	                if (newCab.getCabCurrStatus().equalsIgnoreCase("Available") ) {
 	                	  
-	         	            
-	         	             
 	         	            List<Driver> allDrivers = driverRepo.findByCurrDriverStatus( "available");
 	         	            if (allDrivers.isEmpty()) {
 	         	                throw new TripBookingException("No driver is available for this trip.");
