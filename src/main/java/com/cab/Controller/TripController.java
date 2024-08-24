@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cab.Exception.CabException;
 import com.cab.Exception.CurrentUserSessionException;
+import com.cab.Exception.DriverException;
 import com.cab.Exception.TripBookingException;
 import com.cab.Model.Cab;
+import com.cab.Model.Rating;
+import com.cab.Model.RatingRequest;
 import com.cab.Model.TripBooking;
 import com.cab.Model.TripBookingDTO;
 import com.cab.Service.TripBookingService;
@@ -57,6 +60,10 @@ public class TripController {
 	@GetMapping("/cancelTrip")
 	public ResponseEntity<String>  cancelTrip(@RequestParam("TripBookingId") Integer TripBookingId,@RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
 		return new ResponseEntity<String>(tripBookingService.cancelTrip(TripBookingId, uuid),HttpStatus.OK);
+	}
+	@PostMapping("/submitRating")
+	public ResponseEntity<String>  submitRating(@RequestParam("uuid") String uuid,@RequestBody RatingRequest rating) throws TripBookingException, CurrentUserSessionException,DriverException{
+		return new ResponseEntity<String>(tripBookingService.submitRating(rating, uuid),HttpStatus.OK);
 	}
 	
 }

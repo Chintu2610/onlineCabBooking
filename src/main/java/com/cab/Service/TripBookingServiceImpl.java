@@ -9,17 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cab.Exception.CabException;
 import com.cab.Exception.CurrentUserSessionException;
+import com.cab.Exception.DriverException;
 import com.cab.Exception.TripBookingException;
 import com.cab.Model.Cab;
 import com.cab.Model.CurrentUserSession;
 import com.cab.Model.Customer;
 import com.cab.Model.Driver;
+import com.cab.Model.Rating;
+import com.cab.Model.RatingRequest;
 import com.cab.Model.TripBooking;
 import com.cab.Model.TripBookingDTO;
 import com.cab.Repositary.CabRepo;
 import com.cab.Repositary.CurrentUserSessionRepo;
 import com.cab.Repositary.CustomerRepo;
 import com.cab.Repositary.DriverRepo;
+import com.cab.Repositary.RatingRepo;
 import com.cab.Repositary.TripBookingRepo;
 
 @Service
@@ -41,6 +45,8 @@ public class TripBookingServiceImpl implements TripBookingService{
 	@Autowired
 	private DriverRepo driverRepo;
 	
+	@Autowired
+	private RatingRepo ratingRepo;
 	
 	@Override
 	public List<Cab> searchByLocation(String pickUpLocation, String uuid)
@@ -277,7 +283,7 @@ public class TripBookingServiceImpl implements TripBookingService{
 				List<TripBooking> allTrip = cust.getTripBooking();
 				for(TripBooking tb : allTrip) {
 					if(tb.getTripBookingId() == trip.getTripBookingId()) {
-						tb.setCurrStatus("completed");
+						tb.setCurrStatus("Completed");
 					}
 				}
 				customerRepo.save(cust);
@@ -335,6 +341,35 @@ public class TripBookingServiceImpl implements TripBookingService{
 	}
 
 
+	@Override
+	public String submitRating(RatingRequest rating, String uuid) throws DriverException {
+		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
+		if(validUser.isPresent()) {
+			Optional<TripBooking> tripBooking=tripBookingRepo.findByTripBookingId(rating.getTripBookingId());
+			if(tripBooking.isPresent())
+			{
+				Rating rating1=new Rating();
+				rating1.setRating(rating.getRating());
+				rating1.setFeedBack(rating.getFeedBack());
+				Driver driver=driverRepo.findById(rating.getDriverId()).orElseThrow(()->new RuntimeException("Driver not found"));
+				rating1.setDriver(driver);
+				rating1.setTripBookingId(rating.getTripBookingId());
+				ratingRepo.save(rating1);
+			}else
+			{
+				return "No such trip booking is there.";
+			}
+			
+		}else {
+			return "User is not logged in";
+		}
+		
+		return null;
+	}
+	
+	
+	
+	
 	
 
 	
