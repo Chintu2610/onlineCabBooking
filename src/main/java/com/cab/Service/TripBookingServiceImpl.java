@@ -364,6 +364,54 @@ public class TripBookingServiceImpl implements TripBookingService{
 		
 		return null;
 	}
+
+
+	@Override
+	public List<Rating> viewRatingDriverWise(String driverId, String uuid) throws TripBookingException, CurrentUserSessionException {
+		// TODO Auto-generated method stub
+		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
+		if(validUser.isPresent()) {
+			return ratingRepo.findAll();
+		}else {
+			throw new CurrentUserSessionException("User is not logged in");
+		}
+	}
+	@Override
+	public String handleAcceptDeclineTrip(Integer tripBookingId, String uuid,String status) throws TripBookingException,CurrentUserSessionException {
+		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
+		if(validUser.isPresent()) {
+			Optional<TripBooking> tp = tripBookingRepo.findById(tripBookingId);
+			if(tp.isPresent()) {
+				TripBooking trip = tp.get();
+				trip.setCurrStatus(status);
+				tripBookingRepo.save(trip);
+				Customer cust = trip.getCustomer();
+				List<TripBooking> allTrip = cust.getTripBooking();
+				for(TripBooking tb : allTrip) {
+					if(tb.getTripBookingId() == trip.getTripBookingId()) {
+						tb.setCurrStatus(status);
+					}
+				}
+				customerRepo.save(cust);
+				if(status.equals("Declined")) {
+				trip.getCab().setCabCurrStatus("Available");
+				cabRepo.save(trip.getCab());
+				trip.getDriver().setCurrDriverStatus("Available");
+				trip.getDriver().setCab(null);
+			    trip.getCab().setDriver(null);
+				driverRepo.save(trip.getDriver());
+				return "Trip Declined By You.";
+				}
+				return "Trip Accepted.";
+			}
+			else {
+				throw new TripBookingException("No trip is booked with provided tripBookingId.");
+			}
+		}
+		else {
+			throw new CurrentUserSessionException("User is not logged in");
+		}
+	}
 	
 	
 	

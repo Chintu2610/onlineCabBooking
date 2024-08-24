@@ -21,6 +21,7 @@ import com.cab.Exception.CustomerException;
 import com.cab.Exception.DriverException;
 import com.cab.Model.Customer;
 import com.cab.Model.Driver;
+import com.cab.Model.DriverEarnings;
 import com.cab.Service.DriverService;
 
 @CrossOrigin
@@ -66,6 +67,10 @@ public class DriverController {
 	@GetMapping("/GetDriverDetails")
 	public ResponseEntity<Driver> GetDriverDetails(@RequestParam("driverid") String driverid,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
 		return new ResponseEntity<Driver>(driverService.GetDriverData(driverid, uuid),HttpStatus.OK);
+	}
+	@GetMapping("/GetDriverEarnings")
+	public ResponseEntity<DriverEarnings> GetDriverEarnings(@RequestParam("driverid") String driverid,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
+		return new ResponseEntity<DriverEarnings>(driverService.GetDriverEarnings(driverid, uuid),HttpStatus.OK);
 	}
 }	
 

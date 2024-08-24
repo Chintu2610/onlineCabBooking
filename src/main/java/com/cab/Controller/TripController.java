@@ -57,6 +57,10 @@ public class TripController {
 	public ResponseEntity<String>  markCompleteTrip(@RequestParam("TripBookingId") Integer TripBookingId,@RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
 		return new ResponseEntity<String>(tripBookingService.MarkTripAsCompleted(TripBookingId, uuid),HttpStatus.OK);
 	}
+	@GetMapping("/handleAcceptDeclineTrip")
+	public ResponseEntity<String>  handleAcceptDeclineTrip(@RequestParam("TripBookingId") Integer TripBookingId,@RequestParam("uuid") String uuid,@RequestParam("status") String status) throws TripBookingException, CurrentUserSessionException{
+		return new ResponseEntity<String>(tripBookingService.handleAcceptDeclineTrip(TripBookingId, uuid,status),HttpStatus.OK);
+	}
 	@GetMapping("/cancelTrip")
 	public ResponseEntity<String>  cancelTrip(@RequestParam("TripBookingId") Integer TripBookingId,@RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
 		return new ResponseEntity<String>(tripBookingService.cancelTrip(TripBookingId, uuid),HttpStatus.OK);
@@ -65,7 +69,9 @@ public class TripController {
 	public ResponseEntity<String>  submitRating(@RequestParam("uuid") String uuid,@RequestBody RatingRequest rating) throws TripBookingException, CurrentUserSessionException,DriverException{
 		return new ResponseEntity<String>(tripBookingService.submitRating(rating, uuid),HttpStatus.OK);
 	}
-	
+	@GetMapping("/viewRatingDriverWise")
+	public ResponseEntity<List<Rating>> viewRatingDriverWise(@RequestParam("driverId") String driverId, @RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
+		return new ResponseEntity<List<Rating>>(tripBookingService.viewRatingDriverWise(driverId, uuid),HttpStatus.OK);
+	}
 }
-//public TripBookingDTO viewBookingById(Integer TripBookingId, String uuid)
 

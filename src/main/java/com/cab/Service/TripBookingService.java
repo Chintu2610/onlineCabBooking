@@ -22,9 +22,13 @@ public interface TripBookingService {
 	
 	TripBookingDTO viewBookingById(Integer TripBookingId,String uuid )throws TripBookingException,CabException,CurrentUserSessionException;
 	
-	String MarkTripAsCompleted(Integer TripBookingId,String uuid)throws TripBookingException,CurrentUserSessionException;;
+	String MarkTripAsCompleted(Integer TripBookingId,String uuid)throws TripBookingException,CurrentUserSessionException;
 	String cancelTrip(Integer TripBookingId,String uuid)throws TripBookingException,CurrentUserSessionException;
 
 	String submitRating(RatingRequest rating, String uuid) throws DriverException;
+
+	List<Rating> viewRatingDriverWise(String driverId, String uuid) throws TripBookingException, CurrentUserSessionException;
+
+	String handleAcceptDeclineTrip(Integer tripBookingId, String uuid,String status) throws TripBookingException,CurrentUserSessionException;
 
 }

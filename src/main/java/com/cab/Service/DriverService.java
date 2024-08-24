@@ -7,6 +7,7 @@ import com.cab.Exception.CustomerException;
 import com.cab.Exception.DriverException;
 import com.cab.Model.Customer;
 import com.cab.Model.Driver;
+import com.cab.Model.DriverEarnings;
 
 public interface DriverService {
 
@@ -22,6 +23,8 @@ public interface DriverService {
 	List<Driver> viewAllDriver();
 	
 	Driver GetDriverData(String username, String uuid) throws CustomerException, CurrentUserSessionException;
+
+	DriverEarnings GetDriverEarnings(String driverid, String uuid) throws CustomerException, CurrentUserSessionException;
 	
 	
 }

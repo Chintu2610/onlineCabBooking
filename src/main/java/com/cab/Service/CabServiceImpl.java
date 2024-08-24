@@ -144,15 +144,14 @@ public class CabServiceImpl implements CabService{
 
 	@Override
 	public List<Cab> getAllAvailableCab(String uuid)throws CabException, CurrentUserSessionException {
-		// TODO Auto-generated method stub
+	
 		Optional<CurrentUserSession> validuser = currRepo.findByUuid(uuid);
-//		if(validuser.isPresent()) {
 		List<Cab> allCabs=null;
-		if(!validuser.isPresent() )
+		if(!validuser.isPresent()||(validuser.isPresent() && validuser.get().getCurrRole().equalsIgnoreCase("customer")) )
 		{
 			allCabs = cabRepo.findByCabCurrStatus("Available");
 		}else
-		if ( (validuser.isPresent() && validuser.get().getCurrRole().equalsIgnoreCase("admin")) || (validuser.get().getCurrRole().equalsIgnoreCase("driver"))|| (validuser.get().getCurrRole().equalsIgnoreCase("customer"))) {
+		if ( (validuser.isPresent() && validuser.get().getCurrRole().equalsIgnoreCase("admin")) || (validuser.get().getCurrRole().equalsIgnoreCase("driver"))) {
 		 allCabs = cabRepo.findAll();
 		}else {
 			String email= validuser.get().getEmail();

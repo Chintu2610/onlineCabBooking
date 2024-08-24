@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import com.cab.Exception.CurrentUserSessionException;
 import com.cab.Exception.CustomerException;
 import com.cab.Exception.DriverException;
+import com.cab.Model.CountsForAdminDashboard;
 import com.cab.Model.CurrentUserSession;
 import com.cab.Model.Customer;
 import com.cab.Model.Driver;
+import com.cab.Model.DriverEarnings;
 import com.cab.Model.TripBooking;
 import com.cab.Repositary.AdminRepo;
 import com.cab.Repositary.CurrentUserSessionRepo;
@@ -174,6 +176,34 @@ public class DriverServiceImpl implements DriverService{
 				throw new CurrentUserSessionException("Driver is Not Logged In");
 			}
 		}
+
+	@Override
+	public DriverEarnings GetDriverEarnings(String driverid, String uuid)
+			throws CustomerException, CurrentUserSessionException {
+Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
+		
+		if (validCustomer.isPresent()) {
+		String role=validCustomer.get().getCurrRole();
+		List<Object[]> results=null;
+			
+				 results =driverRepo.GetDriverEarnings();
+			
+			
+			 if (!results.isEmpty()) {
+		            Object[] row = results.get(0);
+		            DriverEarnings counts = new DriverEarnings();
+		            counts.setTodayEarnings(((Number) row[0]).intValue());
+		            counts.setWeeklyEarnings(((Number) row[1]).intValue());
+		            counts.setMonthlyEarnings(((Number) row[2]).intValue());
+		            counts.setTotalEarnings(((Number) row[3]).intValue());		           
+		            return counts;
+		        }
+		        return null; // Or handle this case as needed}
+		}
+		else {
+			throw new CurrentUserSessionException("Admin is Not Logged In");
+		}
+	}
 	}
 
 	
