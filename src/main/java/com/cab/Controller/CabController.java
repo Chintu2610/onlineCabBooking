@@ -51,7 +51,7 @@ public class CabController {
 	            // Save the file to the directory
 	            if (!file.isEmpty()) {
 	                byte[] bytes = file.getBytes();
-	                String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
+	                String uploadDirectory = "C:\\Users\\DELL\\OneDrive\\Documents\\Downloads\\CabReact\\cabBookingReact\\public\\images\\cabImages";
 		            String fileName = file.getOriginalFilename();
 		            File destFile = new File(uploadDirectory + File.separator + fileName);
 		            file.transferTo(destFile);
@@ -99,7 +99,7 @@ public class CabController {
 		 try {
 	            // Save the file to the directory
 	            if (file!=null &&!file.isEmpty()) {
-	     String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
+	     String uploadDirectory = "C:\\Users\\DELL\\OneDrive\\Documents\\Downloads\\CabReact\\cabBookingReact\\public\\images\\cabImages";
 	     String fileName = file.getOriginalFilename();
          File destFile = new File(uploadDirectory + File.separator + fileName);
          file.transferTo(destFile);
