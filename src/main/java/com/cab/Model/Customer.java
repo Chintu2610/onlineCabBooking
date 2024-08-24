@@ -26,7 +26,7 @@ public class Customer extends User{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer customerId;
-	@OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<TripBooking> tripBooking;
 }

@@ -27,7 +27,7 @@ public class Rating {
 	private int rating;
 	@Column(name="feedBack")
 	private String feedBack;
-	@JsonIgnore
+	
 	@ManyToOne
 	@JoinColumn(name = "driverId", nullable = false)
 	private Driver driver;
