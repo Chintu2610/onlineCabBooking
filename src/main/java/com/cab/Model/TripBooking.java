@@ -38,6 +38,7 @@ public class TripBooking {
 	private float distanceInKm;
 	
 	private String currStatus;
+	private String preferredGender;
 	
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	
