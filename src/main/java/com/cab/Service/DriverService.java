@@ -37,4 +37,5 @@ public interface DriverService {
 	List<TripBookingDTO> getTotalTransactions(String driverid, String uuid) throws CustomerException, CurrentUserSessionException ;
 	
 	
+	
 }

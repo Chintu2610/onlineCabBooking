@@ -235,9 +235,7 @@ Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 			else {
 			throw new CurrentUserSessionException("Admin is Not Logged In");
 		}
-		
-		
-		
+			
 	}
 
 	@Override
