@@ -22,6 +22,5 @@ public class SubscriptionController {
         subscriptionService.subscribe(email);
     }
     
-   
 }
 
