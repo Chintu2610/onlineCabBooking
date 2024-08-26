@@ -104,7 +104,24 @@ public class TripBookingServiceImpl implements TripBookingService{
 	         	            if (allDrivers.isEmpty()) {
 	         	                throw new TripBookingException("No driver is available for this trip.");
 	         	            } else {
-	         	            	
+	         	            	boolean flag=false;
+	         	            	for(Driver drv:allDrivers)
+	         	            	{
+	         	            		if(drv.getGender().equals(tripBooking.getPreferredGender()))
+	         	            		{
+	         	            			Driver assignDriver = drv;
+	    	         	                assignDriver.setCurrDriverStatus("Booked");
+	    	         	                assignDriver.setCab(newCab);
+	    	         	               newCab.setDriver(assignDriver);
+	    	         	              newCab.setCabCurrStatus("Booked");
+	    	         	                cabRepo.save(newCab);
+	    	         	                driverRepo.save(assignDriver);
+	    	         	                customerRepo.save(customer);
+	    	         	                flag=true;
+	    	         	                break;
+	         	            		}
+	         	            	}
+	         	            	if(flag) {
 	         	                Driver assignDriver = allDrivers.get(0);
 	         	                assignDriver.setCurrDriverStatus("Booked");
 	         	                assignDriver.setCab(newCab);
@@ -127,6 +144,9 @@ public class TripBookingServiceImpl implements TripBookingService{
 	                    customer.setTripBooking(allTripByCustomer);
 	                    customerRepo.save(customer);	                   
 	                    return savedTripBooking;
+	         	            	}else {
+	         	            		throw new CabException("No Driver Present with the given preferred gender");
+	         	            	}
 	         	            }
 	                } else {
 	                    throw new CabException("This Cab is not available currently for location or availability purpose");
