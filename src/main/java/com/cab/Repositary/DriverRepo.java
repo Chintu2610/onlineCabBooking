@@ -38,4 +38,5 @@ public interface DriverRepo extends JpaRepository<Driver, Integer>{
 		       "(SELECT SUM(price) FROM trip_booking WHERE curr_status = 'Completed') AS totalEarnings " +
 		       "FROM DUAL", nativeQuery = true)
 	List<Object[]> GetDriverEarnings();
+	
 }

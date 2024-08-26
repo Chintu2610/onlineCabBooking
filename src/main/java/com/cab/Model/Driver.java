@@ -33,6 +33,7 @@ public class Driver extends User{
 	private float rating;
 	private String currLocation;
 	private String currDriverStatus;
+	private String gender;
 	
 	@OneToMany(cascade = CascadeType.PERSIST,mappedBy = "driver")
 	@JsonIgnore
