@@ -1,6 +1,8 @@
 package com.cab.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import com.cab.Exception.DriverException;
 import com.cab.Model.Customer;
 import com.cab.Model.Driver;
 import com.cab.Model.DriverEarnings;
+import com.cab.Model.TripBookingDTO;
 import com.cab.Service.DriverService;
 
 @CrossOrigin
@@ -72,5 +75,36 @@ public class DriverController {
 	public ResponseEntity<DriverEarnings> GetDriverEarnings(@RequestParam("driverid") String driverid,@RequestParam("uuid") String uuid) throws CustomerException, CurrentUserSessionException{
 		return new ResponseEntity<DriverEarnings>(driverService.GetDriverEarnings(driverid, uuid),HttpStatus.OK);
 	}
+	
+	@GetMapping("/getTransactionDetails")
+    public ResponseEntity<Map<String, List<TripBookingDTO>>> getTransactionDetails(
+            @RequestParam String driverid,
+            @RequestParam String uuid,
+            @RequestParam String period) {
+
+        Map<String, List<TripBookingDTO>> response = new HashMap<>();
+        try {
+            switch (period.toLowerCase()) {
+                case "daily":
+                    response.put("daily", driverService.getDailyTransactions(driverid, uuid));
+                    break;
+                case "weekly":
+                    response.put("weekly", driverService.getWeeklyTransactions(driverid, uuid));
+                    break;
+                case "monthly":
+                    response.put("monthly", driverService.getMonthlyTransactions(driverid, uuid));
+                    break;
+                case "total":
+                    response.put("total", driverService.getTotalTransactions(driverid, uuid));
+                    break;
+                default:
+                    return ResponseEntity.badRequest().body(null);
+            }
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
 }	
+}
 

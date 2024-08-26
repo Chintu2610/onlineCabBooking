@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import com.cab.Model.Customer;
 import com.cab.Model.Driver;
 import com.cab.Model.DriverEarnings;
 import com.cab.Model.TripBooking;
+import com.cab.Model.TripBookingDTO;
 import com.cab.Repositary.AdminRepo;
 import com.cab.Repositary.CurrentUserSessionRepo;
 import com.cab.Repositary.CustomerRepo;
@@ -204,6 +206,128 @@ Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
 			throw new CurrentUserSessionException("Admin is Not Logged In");
 		}
 	}
+
+	@Override
+	public List<TripBookingDTO> getDailyTransactions(String driverid, String uuid) throws CustomerException, CurrentUserSessionException  {
+Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
+		
+		
+			if(validCustomer.isPresent()) {
+				Optional<Driver> cust = driverRepo.findByDriverId(driverid);
+				if(cust.isPresent()) {
+					List<TripBooking> transactions=tripbookingRepo.findDailyTransactions(Integer.parseInt(driverid));
+					 List<TripBookingDTO> tripBookingDTOs = new ArrayList<>();
+				        for (TripBooking trip : transactions) {
+				            TripBookingDTO dto = new TripBookingDTO();
+				            dto.setToDateTime(trip.getToDateTime());
+				            dto.setPrice(Double.parseDouble(trip.getPrice()));
+				            tripBookingDTOs.add(dto);
+				        }
+				        return tripBookingDTOs;
+				}
+				else {
+					throw new CustomerException("Driver not found with this details");
+				}
+		
+			}
+			
+			
+			else {
+			throw new CurrentUserSessionException("Admin is Not Logged In");
+		}
+		
+		
+		
+	}
+
+	@Override
+	public List<TripBookingDTO> getWeeklyTransactions(String driverid, String uuid) throws CustomerException, CurrentUserSessionException  {
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
+		if(validCustomer.isPresent()) {
+			Optional<Driver> cust = driverRepo.findByDriverId(driverid);
+			if(cust.isPresent()) {
+				
+				List<TripBooking> transactions=tripbookingRepo.findWeeklyTransactions(Integer.parseInt(driverid));
+				 List<TripBookingDTO> tripBookingDTOs = new ArrayList<>();
+			        for (TripBooking trip : transactions) {
+			            TripBookingDTO dto = new TripBookingDTO();
+			            dto.setToDateTime(trip.getToDateTime());
+			            dto.setPrice(Double.parseDouble(trip.getPrice()));
+			            tripBookingDTOs.add(dto);
+			        }
+			        return tripBookingDTOs;
+			}
+			else {
+				throw new CustomerException("Driver not found with this details");
+			}
+	
+		}
+		
+		
+		else {
+		throw new CurrentUserSessionException("Admin is Not Logged In");
+	}
+		
+	}
+	  
+
+	@Override
+	public List<TripBookingDTO> getMonthlyTransactions(String driverid, String uuid) throws CustomerException, CurrentUserSessionException  {
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
+		if(validCustomer.isPresent()) {
+			Optional<Driver> cust = driverRepo.findByDriverId(driverid);
+			if(cust.isPresent()) {
+				List<TripBooking> transactions=tripbookingRepo.findMonthlyTransactions(Integer.parseInt(driverid));
+				List<TripBookingDTO> tripBookingDTOs = new ArrayList<>();
+		        for (TripBooking trip : transactions) {
+		            TripBookingDTO dto = new TripBookingDTO();
+		            dto.setToDateTime(trip.getToDateTime());
+		            dto.setPrice(Double.parseDouble(trip.getPrice()));
+		            tripBookingDTOs.add(dto);
+		        }
+		        return tripBookingDTOs;
+			}
+			else {
+				throw new CustomerException("Driver not found with this details");
+			}
+	
+		}
+		else {
+		throw new CurrentUserSessionException("Admin is Not Logged In");
+	}
+		
+	}
+
+	@Override
+	public List<TripBookingDTO> getTotalTransactions(String driverid, String uuid) throws CustomerException, CurrentUserSessionException  {
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
+		if(validCustomer.isPresent()) {
+			Optional<Driver> cust = driverRepo.findByDriverId(driverid);
+			if(cust.isPresent()) {
+				List<TripBooking> transactions=tripbookingRepo.findTotalTransactions(Integer.parseInt(driverid));
+				List<TripBookingDTO> tripBookingDTOs = new ArrayList<>();
+		        for (TripBooking trip : transactions) {
+		            TripBookingDTO dto = new TripBookingDTO();
+		            dto.setToDateTime(trip.getToDateTime());
+		            dto.setPrice(Double.parseDouble(trip.getPrice()));
+		            tripBookingDTOs.add(dto);
+		        }
+		        return tripBookingDTOs;
+			}
+			else {
+				throw new CustomerException("Driver not found with this details");
+			}
+	
+		}
+		
+		
+		else {
+		throw new CurrentUserSessionException("Admin is Not Logged In");
+	}
+		
+	}
+
+	
 	}
 
 	
