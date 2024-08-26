@@ -34,6 +34,8 @@ public class TripBooking {
 	private String toDateTime;
 	
 	private String price;
+	
+	private String preferredGender;
 
 	private float distanceInKm;
 	
