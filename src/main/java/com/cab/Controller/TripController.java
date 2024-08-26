@@ -2,6 +2,7 @@ package com.cab.Controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,6 @@ import com.cab.Exception.CurrentUserSessionException;
 import com.cab.Exception.DriverException;
 import com.cab.Exception.TripBookingException;
 import com.cab.Model.Cab;
-import com.cab.Model.Rating;
 import com.cab.Model.RatingRequest;
 import com.cab.Model.TripBooking;
 import com.cab.Model.TripBookingDTO;
@@ -70,8 +70,8 @@ public class TripController {
 		return new ResponseEntity<String>(tripBookingService.submitRating(rating, uuid),HttpStatus.OK);
 	}
 	@GetMapping("/viewRatingDriverWise")
-	public ResponseEntity<List<Rating>> viewRatingDriverWise(@RequestParam("driverId") String driverId, @RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
-		return new ResponseEntity<List<Rating>>(tripBookingService.viewRatingDriverWise(driverId, uuid),HttpStatus.OK);
+	public ResponseEntity<List<TripBooking>> viewRatingDriverWise(@RequestParam("driverId") String driverId, @RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
+		return new ResponseEntity<List<TripBooking>>(tripBookingService.viewRatingDriverWise(driverId, uuid),HttpStatus.OK);
 	}
 }
 

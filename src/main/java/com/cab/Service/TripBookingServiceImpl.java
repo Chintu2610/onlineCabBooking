@@ -1,6 +1,7 @@
 package com.cab.Service;
 
 import java.time.LocalDateTime;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,6 @@ import com.cab.Model.Cab;
 import com.cab.Model.CurrentUserSession;
 import com.cab.Model.Customer;
 import com.cab.Model.Driver;
-import com.cab.Model.Rating;
 import com.cab.Model.RatingRequest;
 import com.cab.Model.TripBooking;
 import com.cab.Model.TripBookingDTO;
@@ -23,7 +23,6 @@ import com.cab.Repositary.CabRepo;
 import com.cab.Repositary.CurrentUserSessionRepo;
 import com.cab.Repositary.CustomerRepo;
 import com.cab.Repositary.DriverRepo;
-import com.cab.Repositary.RatingRepo;
 import com.cab.Repositary.TripBookingRepo;
 
 @Service
@@ -45,8 +44,7 @@ public class TripBookingServiceImpl implements TripBookingService{
 	@Autowired
 	private DriverRepo driverRepo;
 	
-	@Autowired
-	private RatingRepo ratingRepo;
+	
 	
 	@Override
 	public List<Cab> searchByLocation(String pickUpLocation, String uuid)
@@ -363,16 +361,14 @@ public class TripBookingServiceImpl implements TripBookingService{
 	public String submitRating(RatingRequest rating, String uuid) throws DriverException {
 		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
 		if(validUser.isPresent()) {
-			Optional<TripBooking> tripBooking=tripBookingRepo.findByTripBookingId(rating.getTripBookingId());
-			if(tripBooking.isPresent())
+			Optional<TripBooking> tripBookingopn=tripBookingRepo.findByTripBookingId(rating.getTripBookingId());
+			if(tripBookingopn.isPresent())
 			{
-				Rating rating1=new Rating();
-				rating1.setRating(rating.getRating());
-				rating1.setFeedBack(rating.getFeedBack());
-				Driver driver=driverRepo.findById(rating.getDriverId()).orElseThrow(()->new RuntimeException("Driver not found"));
-				rating1.setDriver(driver);
-				rating1.setTripBookingId(rating.getTripBookingId());
-				ratingRepo.save(rating1);
+				TripBooking tripBooking=tripBookingopn.get();
+				tripBooking.setRating(rating.getRating());
+				tripBooking.setFeedBack(rating.getFeedBack());
+				
+				tripBookingRepo.save(tripBooking);
 			}else
 			{
 				return "No such trip booking is there.";
@@ -387,11 +383,11 @@ public class TripBookingServiceImpl implements TripBookingService{
 
 
 	@Override
-	public List<Rating> viewRatingDriverWise(String driverId, String uuid) throws TripBookingException, CurrentUserSessionException {
+	public List<TripBooking> viewRatingDriverWise(String driverId, String uuid) throws TripBookingException, CurrentUserSessionException {
 		// TODO Auto-generated method stub
 		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
 		if(validUser.isPresent()) {
-			return ratingRepo.findAll();
+			return tripBookingRepo.findAll();
 		}else {
 			throw new CurrentUserSessionException("User is not logged in");
 		}

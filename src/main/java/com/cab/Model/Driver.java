@@ -42,8 +42,6 @@ public class Driver extends User{
 	@OneToOne
 	@JsonIgnore
 	private Cab cab;
-	@OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
-	private List<Rating> ratings = new ArrayList<>();
+	
 	
 }

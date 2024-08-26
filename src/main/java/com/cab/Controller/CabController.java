@@ -46,12 +46,14 @@ public class CabController {
             @RequestParam("manufacturingYear") float manufacturingYear,
             @RequestParam("currLocation") String currLocation,
             @RequestParam("area") String area,
-            @RequestParam("cabCurrStatus") String cabCurrStatus) throws CabException{
+            @RequestParam("cabCurrStatus") String cabCurrStatus
+            ,@RequestParam("email") String ownerEmail ) throws CabException{
 		 try {
 	            // Save the file to the directory
 	            if (!file.isEmpty()) {
 	                byte[] bytes = file.getBytes();
-	                String uploadDirectory = "C:\\Users\\DELL\\OneDrive\\Documents\\Downloads\\CabReact\\cabBookingReact\\public\\images\\cabImages";
+	                String uploadDirectory ="C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
+	                //String uploadDirectory = "C:\\Users\\DELL\\OneDrive\\Documents\\Downloads\\CabReact\\cabBookingReact\\public\\images\\cabImages";
 		            String fileName = file.getOriginalFilename();
 		            File destFile = new File(uploadDirectory + File.separator + fileName);
 		            file.transferTo(destFile);
@@ -69,6 +71,7 @@ public class CabController {
 	                cab.setCabImage(imageUrl); // Relative path for the database
 	                cab.setArea(area);
 	                cab.setManufacturingYear(manufacturingYear);
+	                cab.setOwnerEmail(ownerEmail);
 	                // Save the Cab object using the service
 	                Cab savedCab = cabService.insertCab(cab);
 	                
@@ -99,7 +102,9 @@ public class CabController {
 		 try {
 	            // Save the file to the directory
 	            if (file!=null &&!file.isEmpty()) {
-	     String uploadDirectory = "C:\\Users\\DELL\\OneDrive\\Documents\\Downloads\\CabReact\\cabBookingReact\\public\\images\\cabImages";
+	     //String uploadDirectory = "C:\\Users\\DELL\\OneDrive\\Documents\\Downloads\\CabReact\\cabBookingReact\\public\\images\\cabImages";
+	     String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
+	     
 	     String fileName = file.getOriginalFilename();
          File destFile = new File(uploadDirectory + File.separator + fileName);
          file.transferTo(destFile);

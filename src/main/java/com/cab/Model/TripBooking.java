@@ -3,6 +3,7 @@ package com.cab.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,7 +42,6 @@ public class TripBooking {
 	private String preferredGender;
 	
 	@ManyToOne(cascade = CascadeType.REMOVE)
-	
 	private Driver driver;
 	
 	@ManyToOne(cascade = CascadeType.REMOVE)
@@ -51,5 +51,10 @@ public class TripBooking {
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JsonIgnore
 	private Cab cab;
+	
+	@Column(name="rating")
+	private int rating;
+	@Column(name="feedBack")
+	private String feedBack;
 
 }
