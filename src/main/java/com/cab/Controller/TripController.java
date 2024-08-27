@@ -70,7 +70,7 @@ public class TripController {
 		return new ResponseEntity<String>(tripBookingService.submitRating(rating, uuid),HttpStatus.OK);
 	}
 	@GetMapping("/viewRatingDriverWise")
-	public ResponseEntity<List<TripBooking>> viewRatingDriverWise(@RequestParam("driverId") String driverId, @RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
+	public ResponseEntity<List<TripBooking>> viewRatingDriverWise(@RequestParam("driverId") int driverId, @RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
 		return new ResponseEntity<List<TripBooking>>(tripBookingService.viewRatingDriverWise(driverId, uuid),HttpStatus.OK);
 	}
 }

@@ -182,31 +182,27 @@ public class DriverServiceImpl implements DriverService{
 	@Override
 	public DriverEarnings GetDriverEarnings(String driverid, String uuid)
 			throws CustomerException, CurrentUserSessionException {
-Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
-		
+Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);		
 		if (validCustomer.isPresent()) {
 		String role=validCustomer.get().getCurrRole();
-		List<Object[]> results=null;
-			
-				 results =driverRepo.GetDriverEarnings();
-			
-			
-			 if (!results.isEmpty()) {
-		            Object[] row = results.get(0);
-		            DriverEarnings counts = new DriverEarnings();
-		            counts.setTodayEarnings(((Number) row[0]).intValue());
-		            counts.setWeeklyEarnings(((Number) row[1]).intValue());
-		            counts.setMonthlyEarnings(((Number) row[2]).intValue());
-		            counts.setTotalEarnings(((Number) row[3]).intValue());		           
-		            return counts;
-		        }
+		List<Object[]> results=null;			
+				 results =driverRepo.GetDriverEarnings(driverid);
+				 if (!results.isEmpty()) {
+					    Object[] row = results.get(0);
+					    DriverEarnings counts = new DriverEarnings();
+					    // Handle null values safely by checking each element before casting
+					    counts.setTodayEarnings(row[0] != null ? ((Number) row[0]).intValue() : 0);
+					    counts.setWeeklyEarnings(row[1] != null ? ((Number) row[1]).intValue() : 0);
+					    counts.setMonthlyEarnings(row[2] != null ? ((Number) row[2]).intValue() : 0);
+					    counts.setTotalEarnings(row[3] != null ? ((Number) row[3]).intValue() : 0);
+					    return counts;
+					}
 		        return null; // Or handle this case as needed}
 		}
 		else {
 			throw new CurrentUserSessionException("Admin is Not Logged In");
 		}
 	}
-
 	@Override
 	public List<TripBookingDTO> getDailyTransactions(String driverid, String uuid) throws CustomerException, CurrentUserSessionException  {
 Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
