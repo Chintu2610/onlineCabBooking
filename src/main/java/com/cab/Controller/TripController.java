@@ -39,8 +39,8 @@ public class TripController {
 	}
 	
 	@PostMapping("/BookRequest")
-	public ResponseEntity<TripBooking> BookRequest(@RequestParam("cabId") Integer cabId, @RequestBody TripBooking tripBooking, @RequestParam("uuid") String uuid ) throws TripBookingException, CabException, CurrentUserSessionException{
-		return new ResponseEntity<TripBooking>(tripBookingService.BookRequest(cabId, tripBooking, uuid),HttpStatus.OK);
+	public ResponseEntity<String> BookRequest(@RequestParam("cabId") Integer cabId, @RequestBody TripBooking tripBooking, @RequestParam("uuid") String uuid ) throws TripBookingException, CabException, CurrentUserSessionException{
+		return new ResponseEntity<String>(tripBookingService.BookRequest(cabId, tripBooking, uuid),HttpStatus.OK);
 	}
 	
 	@PutMapping("/AssignDriverByAdmin")

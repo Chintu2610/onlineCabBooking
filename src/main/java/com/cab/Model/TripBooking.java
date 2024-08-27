@@ -52,7 +52,7 @@ public class TripBooking {
 	@JsonIgnore
 	private Cab cab;
 	
-	@Column(name="rating")
+	@Column(name="rating",columnDefinition="int default -1")
 	private int rating;
 	@Column(name="feedBack")
 	private String feedBack;
