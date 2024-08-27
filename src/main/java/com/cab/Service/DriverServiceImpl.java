@@ -156,9 +156,27 @@ public class DriverServiceImpl implements DriverService{
 	}
 
 	@Override
-	public List<Driver> viewAllDriver() {
-		List<Driver> validCustomer= drvRepo.getAllDrivers();
-		return validCustomer;
+	public List<Driver> viewAllDriver(String uuid) {
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
+		String role=validCustomer.get().getCurrRole();
+		String email=validCustomer.get().getEmail();
+		if(validCustomer.isPresent() && role.equalsIgnoreCase("admin")) {
+		List<Driver> allDrivers= drvRepo.getAllDrivers();
+		return allDrivers;
+		}else if(validCustomer.isPresent() && role.equalsIgnoreCase("vendor"))
+		{
+			List<Driver> allDrivers= drvRepo.getAllDrivers();
+			List<Driver> filteredDrivers=new ArrayList<>();
+			for(Driver drv:allDrivers)
+			{
+				if(drv.getOwnerEmail().equals(email))
+				{
+					filteredDrivers.add(drv);
+				}
+			}
+			return filteredDrivers;
+		}
+		return null;
 	}
 
 	@Override
