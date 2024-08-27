@@ -98,7 +98,7 @@ public class TripBookingServiceImpl implements TripBookingService{
 	                       // newCab.getCurrLocation().equalsIgnoreCase(tripBooking.getPickupLocation())) {
 	                if (newCab.getCabCurrStatus().equalsIgnoreCase("Available") ) {
 	                	  
-	         	            List<Driver> allDrivers = driverRepo.findByCurrDriverStatus( "available");
+	         	            List<Driver> allDrivers = driverRepo.findByCurrDriverStatus( "Available");
 	         	            if (allDrivers.isEmpty()) {
 	         	                return ("No driver is available for this trip.");
 	         	            } else {
@@ -116,32 +116,27 @@ public class TripBookingServiceImpl implements TripBookingService{
 	    	         	                driverRepo.save(assignDriver);
 	    	         	                customerRepo.save(customer);
 	    	         	                flag=true;
+	    	         	               tripBooking.setCab(newCab);
+	    	   	                    tripBooking.setCustomer(customer);
+	    	   	                    tripBooking.setDriver(drv);
+	    	   	                    tripBooking.setCurrStatus("Pending");
+	    	   	                    tripBooking.setFromDateTime(fromDT.toString());
+	    	   	                    tripBooking.setToDateTime(toDT.toString());
+	    	   	                 tripBooking.setRating(-1);
+	    	   	                    TripBooking savedTripBooking = tripBookingRepo.save(tripBooking);	                    
+	    	   	                    // Ensure the saved trip booking is correctly added to the customer's list
+	    	   	                    allTripByCustomer.add(savedTripBooking);
+	    	   	                    customer.setTripBooking(allTripByCustomer);
+	    	   	                    customerRepo.save(customer);	                   
+	    	   	                    
 	    	         	                break;
 	         	            		}
 	         	            	}
 	         	            	if(flag) {
-	         	                Driver assignDriver = allDrivers.get(0);
-	         	                assignDriver.setCurrDriverStatus("Booked");
-	         	                assignDriver.setCab(newCab);
-	         	               newCab.setDriver(assignDriver);
-	         	              newCab.setCabCurrStatus("Booked");
-	         	                cabRepo.save(newCab);
-	         	                driverRepo.save(assignDriver);
-	         	                customerRepo.save(customer);	         	                
-	         	            	         	        
+	         	                	         	                
+	         	            		return "Cab booked successfully.";        
 	                    
-	                    tripBooking.setCab(newCab);
-	                    tripBooking.setCustomer(customer);
-	                    tripBooking.setDriver(assignDriver);
-	                    tripBooking.setCurrStatus("Pending");
-	                    tripBooking.setFromDateTime(fromDT.toString());
-	                    tripBooking.setToDateTime(toDT.toString());
-	                    TripBooking savedTripBooking = tripBookingRepo.save(tripBooking);	                    
-	                    // Ensure the saved trip booking is correctly added to the customer's list
-	                    allTripByCustomer.add(savedTripBooking);
-	                    customer.setTripBooking(allTripByCustomer);
-	                    customerRepo.save(customer);	                   
-	                    return "Cab booked successfully.";
+	                    
 	         	            	}else {
 	         	            		return ("No Driver Present with the given preferred gender");
 	         	            	}
