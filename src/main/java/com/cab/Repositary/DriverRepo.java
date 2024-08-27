@@ -32,11 +32,14 @@ public interface DriverRepo extends JpaRepository<Driver, Integer>{
 	@Query(value ="select * from driver where driver_id =?1 ",nativeQuery=true)
 	Optional<Driver> findByusername(String driverid);
 	@Query(value = "SELECT " +
-		       "(SELECT SUM(price) FROM trip_booking WHERE DATE(to_date_time) = DATE(CURRENT_DATE) AND curr_status = 'Completed') AS todayEarnings, " +
-		       "(SELECT SUM(price) FROM trip_booking WHERE to_date_time >= CURDATE() - INTERVAL DAYOFWEEK(CURDATE())+6 DAY AND to_date_time < CURDATE() + INTERVAL 1 DAY AND curr_status = 'Completed') AS weeklyEarnings, " +
-		       "(SELECT SUM(price) FROM trip_booking WHERE MONTH(to_date_time) = MONTH(CURRENT_DATE) AND YEAR(to_date_time) = YEAR(CURRENT_DATE) AND curr_status = 'Completed') AS monthlyEarnings, " +
-		       "(SELECT SUM(price) FROM trip_booking WHERE curr_status = 'Completed') AS totalEarnings " +
+		       "(SELECT COALESCE(SUM(price), 0) FROM trip_booking WHERE DATE(to_date_time) = CURRENT_DATE AND curr_status = 'Completed' AND driver_driver_id = :driverId) AS todayEarnings, " +
+		       "(SELECT COALESCE(SUM(price), 0) FROM trip_booking WHERE to_date_time >= CURDATE() - INTERVAL 7 DAY AND to_date_time < CURDATE() + INTERVAL 1 DAY AND curr_status = 'Completed' AND driver_driver_id = :driverId) AS weeklyEarnings, " +
+		       "(SELECT COALESCE(SUM(price), 0) FROM trip_booking WHERE MONTH(to_date_time) = MONTH(CURRENT_DATE) AND YEAR(to_date_time) = YEAR(CURRENT_DATE) AND curr_status = 'Completed' AND driver_driver_id = :driverId) AS monthlyEarnings, " +
+		       "(SELECT COALESCE(SUM(price), 0) FROM trip_booking WHERE curr_status = 'Completed' AND driver_driver_id = :driverId) AS totalEarnings " +
 		       "FROM DUAL", nativeQuery = true)
-	List<Object[]> GetDriverEarnings();
+	List<Object[]> GetDriverEarnings(@Param("driverId") String driverId);
+
+
+
 	
 }

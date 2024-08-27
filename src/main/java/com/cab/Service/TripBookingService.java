@@ -27,7 +27,7 @@ public interface TripBookingService {
 
 	String submitRating(RatingRequest rating, String uuid) throws DriverException;
 
-	List<TripBooking> viewRatingDriverWise(String driverId, String uuid) throws TripBookingException, CurrentUserSessionException;
+	List<TripBooking> viewRatingDriverWise(int driverId, String uuid) throws TripBookingException, CurrentUserSessionException;
 
 	String handleAcceptDeclineTrip(Integer tripBookingId, String uuid,String status) throws TripBookingException,CurrentUserSessionException;
 

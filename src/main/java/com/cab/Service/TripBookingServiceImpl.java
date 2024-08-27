@@ -378,11 +378,20 @@ public class TripBookingServiceImpl implements TripBookingService{
 
 
 	@Override
-	public List<TripBooking> viewRatingDriverWise(String driverId, String uuid) throws TripBookingException, CurrentUserSessionException {
+	public List<TripBooking> viewRatingDriverWise(int driverId, String uuid) throws TripBookingException, CurrentUserSessionException {
 		// TODO Auto-generated method stub
 		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
 		if(validUser.isPresent()) {
-			return tripBookingRepo.findAll();
+			List<TripBooking> alltrips= tripBookingRepo.findAll();
+			List<TripBooking> tempTrips=new ArrayList<TripBooking>();
+			for(TripBooking trip:alltrips)
+			{
+				if(trip.getDriver().getDriverId()==driverId)
+				{
+					tempTrips.add(trip);
+				}
+			}
+			return tempTrips;
 		}else {
 			throw new CurrentUserSessionException("User is not logged in");
 		}

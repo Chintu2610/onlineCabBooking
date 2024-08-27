@@ -229,7 +229,7 @@ public class AdminServiceImpl implements AdminService {
 				 results =adminRepo.getCountsForAdminDashboard();
 			}else if(role.equalsIgnoreCase("driver"))
 			{
-				results =adminRepo.getCountsForDriverDashboard();
+				results =adminRepo.getCountsForDriverDashboard( validCustomer.get().getCurrUserId());
 			}
 				else
 			{
@@ -284,10 +284,13 @@ public class AdminServiceImpl implements AdminService {
 				List<TripBooking> driverTrips=new ArrayList<>();
 				for(TripBooking tripBooking:customerTrips)
 				{
-					if(tripBooking.getDriver()!=null && tripBooking.getDriver().getDriverId()==driverId)
-					{
-						driverTrips.add(tripBooking);
+					if (tripBooking != null && tripBooking.getDriver() != null) {
+					    Integer currentDriverId = tripBooking.getDriver().getDriverId();
+					    if (currentDriverId != null && currentDriverId.equals(driverId)) {
+					        driverTrips.add(tripBooking);
+					    }
 					}
+
 				}
 				if (customerTrips.isEmpty()) {
 //					throw new CustomerException("No Trip Bookked by the customer");
