@@ -37,7 +37,7 @@ public class DriverController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<Driver> register(@RequestBody Driver driver) throws DriverException{
-		System.out.println(driver.getCurrDriverStatus());
+		
 		return new ResponseEntity<Driver>(driverService.insertDriver(driver),HttpStatus.CREATED);
 	}
 	
@@ -62,8 +62,9 @@ public class DriverController {
 	}
 	
 	@GetMapping("/AllDriver")
-    public ResponseEntity<List<Driver>> allDrivers() throws DriverException, CurrentUserSessionException {
-        List<Driver> allDrivers = driverService.viewAllDriver();
+    public ResponseEntity<List<Driver>> allDrivers(@RequestParam("uuid") String uuid) throws DriverException, CurrentUserSessionException {
+        
+		List<Driver> allDrivers = driverService.viewAllDriver( uuid);
         return new ResponseEntity<>(allDrivers, HttpStatus.OK);
     }
 	

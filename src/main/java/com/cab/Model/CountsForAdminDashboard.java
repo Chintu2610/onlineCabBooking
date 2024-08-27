@@ -8,6 +8,9 @@ public class CountsForAdminDashboard {
 	private int noOfUserRegisteredLastMonth;
 	private int noOfCab;
 	private int noOfVendors;
+	
+	
+	
 	public CountsForAdminDashboard() {
 		super();
 		// TODO Auto-generated constructor stub

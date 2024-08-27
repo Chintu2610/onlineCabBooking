@@ -32,7 +32,7 @@ public class Driver extends User{
 	private String currLocation;
 	private String currDriverStatus;
 	private String gender;
-	
+    private String ownerEmail;
 	@OneToMany(cascade = CascadeType.PERSIST,mappedBy = "driver")
 	@JsonIgnore
 	List<TripBooking> trips = new ArrayList<>();
