@@ -72,7 +72,7 @@ public class TripBookingServiceImpl implements TripBookingService{
 
 
 	@Override
-	public TripBooking BookRequest(Integer cabId, TripBooking tripBooking, String uuid)
+	public String BookRequest(Integer cabId, TripBooking tripBooking, String uuid)
 	        throws TripBookingException, CabException, CurrentUserSessionException {
 	    Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
 	    if (validUser.isPresent()) {
@@ -89,7 +89,7 @@ public class TripBookingServiceImpl implements TripBookingService{
 
 	        List<TripBooking> allTripByCustomer = customer.getTripBooking();
 	        if (isTripOverlap(tripBooking, allTripByCustomer)) {
-	            throw new TripBookingException("You have already booked another Trip at the same Time");
+	            return ("You have already booked another Trip at the same Time");
 	        } else {
 	            Optional<Cab> addCab = cabRepo.findById(cabId);
 	            if (addCab.isPresent()) {
@@ -100,7 +100,7 @@ public class TripBookingServiceImpl implements TripBookingService{
 	                	  
 	         	            List<Driver> allDrivers = driverRepo.findByCurrDriverStatus( "available");
 	         	            if (allDrivers.isEmpty()) {
-	         	                throw new TripBookingException("No driver is available for this trip.");
+	         	                return ("No driver is available for this trip.");
 	         	            } else {
 	         	            	boolean flag=false;
 	         	            	for(Driver drv:allDrivers)
@@ -141,31 +141,25 @@ public class TripBookingServiceImpl implements TripBookingService{
 	                    allTripByCustomer.add(savedTripBooking);
 	                    customer.setTripBooking(allTripByCustomer);
 	                    customerRepo.save(customer);	                   
-	                    return savedTripBooking;
+	                    return "Cab booked successfully.";
 	         	            	}else {
-	         	            		throw new CabException("No Driver Present with the given preferred gender");
+	         	            		return ("No Driver Present with the given preferred gender");
 	         	            	}
 	         	            }
 	                } else {
-	                    throw new CabException("This Cab is not available currently for location or availability purpose");
+	                    return ("This Cab is not available currently for location or availability purpose");
 	                }
 	            } else {
-	                throw new CabException("No Cab Present with the given Credentials");
+	                return ("No Cab Present with the given Credentials");
 	            }
 	        }
 	    } else {
 	        throw new CurrentUserSessionException("User is Not Logged In");
 	    }
 	}
-
-	
-
 	public List<Driver> getAvailableDrivers(String pickUpLocation) {
 	    return driverRepo.findByCurrLocationAndCurrDriverStatus(pickUpLocation, "available");
 	}
-
-	
-	
 	public boolean isTripOverlap(TripBooking newTripBooking, List<TripBooking> existingTrips) {
 	    if (newTripBooking.getFromDateTime() == null || newTripBooking.getToDateTime() == null) {
 	        return false; 
@@ -175,12 +169,13 @@ public class TripBookingServiceImpl implements TripBookingService{
 	    LocalDateTime newTripFromDT = LocalDateTime.parse(newTripBooking.getFromDateTime(), formatter);
 	    LocalDateTime newTripToDT = LocalDateTime.parse(newTripBooking.getToDateTime(), formatter);
 	    for (TripBooking existingTripBooking : existingTrips) {
+	    	String status=existingTripBooking.getCurrStatus();
 	        if (existingTripBooking.getFromDateTime() == null || existingTripBooking.getToDateTime() == null) {
 	            continue;
 	        }
 	        LocalDateTime existingTripFromDT = LocalDateTime.parse(existingTripBooking.getFromDateTime(), formatter);
 	        LocalDateTime existingTripToDT = LocalDateTime.parse(existingTripBooking.getToDateTime(), formatter);
-	        if (newTripFromDT.isBefore(existingTripToDT) && newTripToDT.isAfter(existingTripFromDT)) {
+	        if (newTripFromDT.isBefore(existingTripToDT) && newTripToDT.isAfter(existingTripFromDT) && (status.equalsIgnoreCase("pending") || status.equalsIgnoreCase("accepted"))) {
 	            return true;
 	        }
 	    }    
