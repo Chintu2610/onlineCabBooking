@@ -34,8 +34,8 @@ public class CabController {
 	
 	@Autowired
 	private CabService cabService;
-	
-	
+	@Value("${file.uploadDirectory}")
+	private String uploadDirectory;
 	@PostMapping("/register")
 	public ResponseEntity<Cab> register(@RequestParam("file") MultipartFile file,
             @RequestParam("carType") String carType,
@@ -52,7 +52,9 @@ public class CabController {
 	            // Save the file to the directory
 	            if (!file.isEmpty()) {
 	                byte[] bytes = file.getBytes();
-	                String uploadDirectory ="C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
+	                //String uploadDirectory ="/var/www/cab-images";
+	                //String uploadDirectory ="/opt/tomcat/apache-tomcat-9.0.85/webapps/urbanwheels/images/cabImages";
+	               // String uploadDirectory ="C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
 	                //String uploadDirectory = "C:\\Users\\DELL\\OneDrive\\Documents\\Downloads\\CabReact\\cabBookingReact\\public\\images\\cabImages";
 		            String fileName = file.getOriginalFilename();
 		            File destFile = new File(uploadDirectory + File.separator + fileName);
@@ -98,12 +100,13 @@ public class CabController {
 	                                      @RequestParam("manufacturingYear") String manufacturingYear,
 	                                      @RequestParam("modelName") String modelName,
 	                                      @RequestParam(value = "carImage", required = false) MultipartFile file,
+	                                      @RequestParam(value="fileName", required = false) String file_Name,
 	                                      @RequestParam("uuid") String uuid) throws CabException, CurrentUserSessionException {
 		 try {
 	            // Save the file to the directory
 	            if (file!=null &&!file.isEmpty()) {
 	     //String uploadDirectory = "C:\\Users\\DELL\\OneDrive\\Documents\\Downloads\\CabReact\\cabBookingReact\\public\\images\\cabImages";
-	     String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
+	    // String uploadDirectory = "C:\\Users\\byama\\Desktop\\Documents\\WebLabs Projects\\CabBookingReact08_03\\CabBooking\\public\\images\\cabImages";
 	     
 	     String fileName = file.getOriginalFilename();
          File destFile = new File(uploadDirectory + File.separator + fileName);
@@ -135,6 +138,8 @@ public class CabController {
 		        cab.setCabCurrStatus(cabCurrStatus);
 		        cab.setArea(area);
 		        cab.setModelName(modelName);
+		        cab.setCabImage(file_Name);
+		        cab.setManufacturingYear(Float.parseFloat(manufacturingYear) );
 		        Cab updatedCab = cabService.updateCab(cab, uuid); 
 		        return new ResponseEntity<>(updatedCab, HttpStatus.OK);
             }

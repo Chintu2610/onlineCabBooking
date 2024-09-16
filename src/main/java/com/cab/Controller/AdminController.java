@@ -33,8 +33,11 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
-	
-	
+	@GetMapping("/test")
+	public String test()
+	{
+		return "hi chintu";
+	}
 	@PostMapping("/register/{currRole}")
 	public ResponseEntity<Admin> registerAdmin(@RequestBody Admin admin, @PathVariable String currRole) throws AdminException{
 		return new ResponseEntity<Admin>(adminService.insertAdmin(admin,currRole),HttpStatus.CREATED);
@@ -65,8 +68,12 @@ public class AdminController {
 		return new ResponseEntity<List<TripBooking>>(adminService.getTripsCustomerwise(customerId, uuid),HttpStatus.OK);
 	}
 	@GetMapping("/getTripsDriverwise")
-	public ResponseEntity<List<TripBooking>> getTripsDriverwise(@RequestParam("driverId") Integer customerId,@RequestParam("uuid")  String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException{
-		return new ResponseEntity<List<TripBooking>>(adminService.getTripsDriverwise(customerId, uuid),HttpStatus.OK);
+	public ResponseEntity<List<TripBooking>> getTripsDriverwise(@RequestParam("driverId") Integer driverId,@RequestParam("uuid")  String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException{
+		return new ResponseEntity<List<TripBooking>>(adminService.getTripsDriverwise(driverId, uuid),HttpStatus.OK);
+	}
+	@GetMapping("/getTripsVendorwise")
+	public ResponseEntity<List<TripBooking>> getTripsVendorwise(@RequestParam("vendorId") Integer vendorId,@RequestParam("uuid")  String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException{
+		return new ResponseEntity<List<TripBooking>>(adminService.getTripsVendorwise(vendorId, uuid),HttpStatus.OK);
 	}
 	
 	@GetMapping("/getAllTripsForDays/{fromDateTime}/{toDateTime}")

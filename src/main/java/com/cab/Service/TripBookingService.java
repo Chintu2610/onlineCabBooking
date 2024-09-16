@@ -9,6 +9,8 @@ import com.cab.Exception.DriverException;
 import com.cab.Exception.TripBookingException;
 import com.cab.Model.Cab;
 import com.cab.Model.RatingRequest;
+import com.cab.Model.Report;
+import com.cab.Model.ReportRequest;
 import com.cab.Model.TripBooking;
 import com.cab.Model.TripBookingDTO;
 
@@ -30,5 +32,7 @@ public interface TripBookingService {
 	List<TripBooking> viewRatingDriverWise(int driverId, String uuid) throws TripBookingException, CurrentUserSessionException;
 
 	String handleAcceptDeclineTrip(Integer tripBookingId, String uuid,String status) throws TripBookingException,CurrentUserSessionException;
+
+	String submitReport(ReportRequest rating, String uuid) throws DriverException;
 
 }

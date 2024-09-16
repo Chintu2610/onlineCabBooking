@@ -47,12 +47,13 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public Admin insertAdmin(Admin admin,String currRole) throws AdminException {
 
-		
-		if (currRole.equalsIgnoreCase("admin")) {
-			return adminRepo.save(admin);
-		} else {
-				throw new AdminException("The User is not an Admin");
-		}
+		Optional<Customer> cust = customerRepo.findByEmail(admin.getEmail());
+		Optional<Driver> driver = driverRepo.findByEmail(admin.getEmail());
+		Optional<Admin> adminopt = adminRepo.findByEmail(admin.getEmail());
+		if(cust.isPresent() || driver.isPresent() || adminopt.isPresent()) {
+			throw new AdminException("Already Registered user, please login.");
+		}		
+			return adminRepo.save(admin);		
 	}
 
 	@Override
@@ -305,5 +306,39 @@ public class AdminServiceImpl implements AdminService {
 			throw new CurrentUserSessionException("Driver is Not Logged In Or User is not Admin");
 		}
 		
+	}
+
+	@Override
+	public List<TripBooking> getTripsVendorwise(Integer vendorId, String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException {
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
+		if (validCustomer.isPresent()) {
+			Optional<Admin> optionalVendor = adminRepo.findById(vendorId);
+			if (optionalVendor.isPresent()) {
+				Admin vendor = optionalVendor.get();
+				List<TripBooking> allTrips = tripbookingRepo.findAll();
+				List<TripBooking> vendorTrips=new ArrayList<>();
+				String currentOwnerEmail = vendor.getEmail();
+				for(TripBooking tripBooking:allTrips)
+				{
+					if (tripBooking != null && tripBooking.getDriver() != null && tripBooking.getCab()!=null) {
+					    String driverOwnerEmail = tripBooking.getDriver().getOwnerEmail();
+					    String cabOwnerEmail = tripBooking.getCab().getOwnerEmail();
+					    if (currentOwnerEmail.equals(driverOwnerEmail)||  currentOwnerEmail.equals(cabOwnerEmail)) {
+					    	vendorTrips.add(tripBooking);
+					    }
+					}
+				}
+				if (vendorTrips.isEmpty()) {
+//					throw new CustomerException("No Trip Bookked by the customer");
+					return null;
+				} else {
+					return vendorTrips;
+				}
+			} else {
+				throw new CustomerException("Driver with this Credential is not present");
+			}
+		} else {
+			throw new CurrentUserSessionException("Driver is Not Logged In Or User is not Admin");
+		}
 	}
 }

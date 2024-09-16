@@ -21,6 +21,8 @@ import com.cab.Exception.DriverException;
 import com.cab.Exception.TripBookingException;
 import com.cab.Model.Cab;
 import com.cab.Model.RatingRequest;
+import com.cab.Model.Report;
+import com.cab.Model.ReportRequest;
 import com.cab.Model.TripBooking;
 import com.cab.Model.TripBookingDTO;
 import com.cab.Service.TripBookingService;
@@ -68,6 +70,10 @@ public class TripController {
 	@PostMapping("/submitRating")
 	public ResponseEntity<String>  submitRating(@RequestParam("uuid") String uuid,@RequestBody RatingRequest rating) throws TripBookingException, CurrentUserSessionException,DriverException{
 		return new ResponseEntity<String>(tripBookingService.submitRating(rating, uuid),HttpStatus.OK);
+	}
+	@PostMapping("/submitReport")
+	public ResponseEntity<String>  submitReport(@RequestParam("uuid") String uuid,@RequestBody ReportRequest report) throws TripBookingException, CurrentUserSessionException,DriverException{
+		return new ResponseEntity<String>(tripBookingService.submitReport(report, uuid),HttpStatus.OK);
 	}
 	@GetMapping("/viewRatingDriverWise")
 	public ResponseEntity<List<TripBooking>> viewRatingDriverWise(@RequestParam("driverId") int driverId, @RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
