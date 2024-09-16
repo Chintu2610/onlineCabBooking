@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.cab.Exception.CurrentUserSessionException;
 import com.cab.Exception.CustomerException;
 import com.cab.Exception.DriverException;
+import com.cab.Model.Admin;
 import com.cab.Model.CountsForAdminDashboard;
 import com.cab.Model.CurrentUserSession;
 import com.cab.Model.Customer;
@@ -45,14 +46,19 @@ public class DriverServiceImpl implements DriverService{
 	@Autowired
 	private DriverRepo drvRepo;
 	
-	
+	@Autowired
+	private AdminRepo adminRepo;
 	@Override
 	public Driver insertDriver(Driver driver) throws DriverException {
 		
 		Optional<Driver> findDriver = driverRepo.findByLicenceNo(driver.getLicenceNo());
-		if(findDriver.isPresent()) {
-			throw new DriverException("Driver is already registered");
+		Optional<Customer> cust = customerRepo.findByEmail(driver.getEmail());
+		Optional<Driver> driveropt = driverRepo.findByEmail(driver.getEmail());
+		Optional<Admin> admin = adminRepo.findByEmail(driver.getEmail());
+		if(cust.isPresent() || driveropt.isPresent() || admin.isPresent() || findDriver.isPresent()) {
+			throw new DriverException("email is Already used");
 		}
+		
 		else {
 			if(driver.getUserRole().equalsIgnoreCase("Driver")) {
 				return driverRepo.save(driver);

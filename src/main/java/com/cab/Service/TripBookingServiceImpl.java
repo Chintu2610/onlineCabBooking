@@ -1,5 +1,6 @@
 package com.cab.Service;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import java.time.format.DateTimeFormatter;
@@ -17,12 +18,15 @@ import com.cab.Model.CurrentUserSession;
 import com.cab.Model.Customer;
 import com.cab.Model.Driver;
 import com.cab.Model.RatingRequest;
+import com.cab.Model.Report;
+import com.cab.Model.ReportRequest;
 import com.cab.Model.TripBooking;
 import com.cab.Model.TripBookingDTO;
 import com.cab.Repositary.CabRepo;
 import com.cab.Repositary.CurrentUserSessionRepo;
 import com.cab.Repositary.CustomerRepo;
 import com.cab.Repositary.DriverRepo;
+import com.cab.Repositary.ReportRepository;
 import com.cab.Repositary.TripBookingRepo;
 
 @Service
@@ -43,7 +47,8 @@ public class TripBookingServiceImpl implements TripBookingService{
 	
 	@Autowired
 	private DriverRepo driverRepo;
-	
+	@Autowired
+	private ReportRepository reportRepo;
 	
 	
 	@Override
@@ -426,6 +431,28 @@ public class TripBookingServiceImpl implements TripBookingService{
 		else {
 			throw new CurrentUserSessionException("User is not logged in");
 		}
+	}
+	@Override
+	public String submitReport(ReportRequest req, String uuid) throws DriverException {
+		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
+		if(validUser.isPresent()) {
+			Optional<Customer> cust=customerRepo.findById(validUser.get().getCurrUserId());
+			Optional<Driver>  driver=driverRepo.findById(req.getDriverId());
+			Optional<TripBooking> trip=tripBookingRepo.findById(req.getTripBookingId());
+			Report report=new Report();
+			report.setDescription(req.getDescription());
+			report.setSubject(req.getSubject());
+			report.setCustomer(cust.get());
+			report.setDriver(driver.get());
+			report.setTrip(trip.get());
+			report.setCreated_at(LocalDateTime.now());
+			report.setStatus("open");
+			reportRepo.save(report);
+		}else {
+			return "User is not logged in";
+		}
+		
+		return null;
 	}
 	
 	

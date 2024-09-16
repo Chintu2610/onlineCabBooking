@@ -19,5 +19,6 @@ public abstract class User {
 	private String mobileNumber;
 	private String email;
 	private String userRole;
-	
+	private String firstName;
+	private String lastName;
 }

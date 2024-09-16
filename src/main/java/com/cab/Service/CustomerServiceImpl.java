@@ -8,10 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.cab.Exception.CurrentUserSessionException;
 import com.cab.Exception.CustomerException;
+import com.cab.Model.Admin;
 import com.cab.Model.CurrentUserSession;
 import com.cab.Model.Customer;
+import com.cab.Model.Driver;
+import com.cab.Repositary.AdminRepo;
 import com.cab.Repositary.CurrentUserSessionRepo;
 import com.cab.Repositary.CustomerRepo;
+import com.cab.Repositary.DriverRepo;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
@@ -22,15 +26,37 @@ public class CustomerServiceImpl implements CustomerService{
 	@Autowired
 	private CurrentUserSessionRepo currRepo;
 	
+	@Autowired
+	private DriverRepo driverRepo;
+	
+	@Autowired
+	private AdminRepo adminRepo;
+	
+	@Autowired
+	private OTPGenerator emailservice;
+	
 	@Override
 	public Customer insertCustomer(Customer customer) throws CustomerException {
 
 		Optional<Customer> cust = customerRepo.findByEmail(customer.getEmail());
-		if(cust.isPresent()) {
+		Optional<Driver> driver = driverRepo.findByEmail(customer.getEmail());
+		Optional<Admin> admin = adminRepo.findByEmail(customer.getEmail());
+		if(cust.isPresent() || driver.isPresent() || admin.isPresent()) {
 			throw new CustomerException("Customer is Already Registered");
 		}
 		else {
 			if(customer.getUserRole().equalsIgnoreCase("Customer")) {
+				 StringBuilder emailContent = new
+		        		 StringBuilder(); emailContent.append("</table>")
+		        		 .append("<p>Thank you for registering to our Cab Services! Stay tuned for updates.</p>"
+		        		  ) .append("<p>--</p>") .append("<p>Thanks & Regards,</p>")
+		        		  .append("<p><strong>HR Department | WEBLABS GROUP</strong></p>")
+		        		 .append("<p>Telephone: +91 9701999033</p>")
+		        		  .append("<p>Email: HR@weblabstech.com</p>")
+		        		  .append("<p>Website: <a href='https://www.weblabstech.com'>www.weblabstech.com</a></p>"
+		        		  ) .append("</body></html>"); // Close the HTML table and body emailContent
+		        		 emailservice.sendEmailHtmlType(customer.getEmail(),"Registration Successfull!",emailContent.toString());
+				
 				return customerRepo.save(customer);
 			}
 			else {
