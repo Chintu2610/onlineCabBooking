@@ -24,6 +24,7 @@ import com.cab.Model.Admin;
 import com.cab.Model.Cab;
 import com.cab.Model.CountsForAdminDashboard;
 import com.cab.Model.Customer;
+import com.cab.Model.RidesData;
 import com.cab.Model.TripBooking;
 import com.cab.Service.AdminService;
 @CrossOrigin
@@ -56,6 +57,11 @@ public class AdminController {
 	@GetMapping("/getAllTrips")
 	public ResponseEntity<List<TripBooking>> getAllTrips(@RequestParam("uuid")  String uuid) throws AdminException, TripBookingException, CurrentUserSessionException{
 		return new ResponseEntity<List<TripBooking>>(adminService.getAllTrips(uuid),HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAllTripsForApp")
+	public ResponseEntity<List<RidesData>> getAllTripsForApp() {
+		return new ResponseEntity<List<RidesData>>(adminService.getAllTripsForApp(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/getTripsCabwise/{carType}")

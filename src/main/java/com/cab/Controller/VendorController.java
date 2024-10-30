@@ -49,6 +49,10 @@ public class VendorController {
 	public ResponseEntity<Admin> update(@RequestBody Admin admin, @RequestParam("uuid") String uuid) throws VendorException, CurrentUserSessionException{
 		return new ResponseEntity<Admin>(vendorService.updateVendor(admin, uuid),HttpStatus.OK);
 	}
+	@PutMapping("/approve")
+	public ResponseEntity<String> approve( @RequestParam("uuid") String uuid,@RequestParam("vendorId") String vendorId) throws VendorException, CurrentUserSessionException{
+		return new ResponseEntity<String>(vendorService.approveVendor(vendorId, uuid),HttpStatus.OK);
+	}
 	@DeleteMapping("/delete")
 	public ResponseEntity<Admin> delete(@RequestParam("vendorId") Integer vendorId,@RequestParam("uuid") String uuid) throws VendorException, CurrentUserSessionException{
 		return new ResponseEntity<Admin>(vendorService.deleteVendor(vendorId, uuid),HttpStatus.OK);

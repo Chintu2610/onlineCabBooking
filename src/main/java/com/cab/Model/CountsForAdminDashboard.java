@@ -8,9 +8,16 @@ public class CountsForAdminDashboard {
 	private int noOfUserRegisteredLastMonth;
 	private int noOfCab;
 	private int noOfVendors;
+	private int noOfReports;
 	
 	
 	
+	public int getNoOfReports() {
+		return noOfReports;
+	}
+	public void setNoOfReports(int noOfReports) {
+		this.noOfReports = noOfReports;
+	}
 	public CountsForAdminDashboard() {
 		super();
 		// TODO Auto-generated constructor stub

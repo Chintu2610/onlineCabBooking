@@ -80,7 +80,6 @@ public class DriverServiceImpl implements DriverService{
 				updatingdriver.setAddress(driver.getAddress());
 				updatingdriver.setEmail(driver.getEmail());
 				updatingdriver.setMobileNumber(driver.getMobileNumber());
-				updatingdriver.setPassword(driver.getPassword());
 				updatingdriver.setUserName(driver.getUserName());
 				updatingdriver.setLicenceNo(driver.getLicenceNo());
 				updatingdriver.setCab(driver.getCab());

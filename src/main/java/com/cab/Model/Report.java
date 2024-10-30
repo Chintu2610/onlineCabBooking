@@ -4,7 +4,12 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.ManyToAny;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,18 +25,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL) 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 public class Report {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
 	@JoinColumn(name="driver_id",referencedColumnName ="driverId")
 	private Driver driver;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="trip_id",referencedColumnName ="tripBookingId")
 	private TripBooking trip;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="customer_id",referencedColumnName = "customerId")
 	private Customer customer;
 	private String subject;
@@ -39,8 +47,4 @@ public class Report {
 	private String status;
 	private LocalDateTime  created_at;
 	private LocalDateTime updated_at;
-	
-
-	
-	
 }

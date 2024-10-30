@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cab.Exception.CurrentUserSessionException;
@@ -34,7 +35,8 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
 	private OTPGenerator emailservice;
-	
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 	@Override
 	public Customer insertCustomer(Customer customer) throws CustomerException {
 
@@ -56,7 +58,8 @@ public class CustomerServiceImpl implements CustomerService{
 		        		  .append("<p>Website: <a href='https://www.weblabstech.com'>www.weblabstech.com</a></p>"
 		        		  ) .append("</body></html>"); // Close the HTML table and body emailContent
 		        		 emailservice.sendEmailHtmlType(customer.getEmail(),"Registration Successfull!",emailContent.toString());
-				
+		        		 String encryptedPassword = passwordEncoder.encode(customer.getPassword());
+		        		 customer.setPassword(encryptedPassword);
 				return customerRepo.save(customer);
 			}
 			else {
@@ -64,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService{
 			}
 		}
 	}
-
+	
 	@Override
 	public Customer updateCustomer(Customer customer, String uuid)
 			throws CustomerException, CurrentUserSessionException {

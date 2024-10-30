@@ -35,4 +35,10 @@ public interface TripBookingService {
 
 	String submitReport(ReportRequest rating, String uuid) throws DriverException;
 
+	List<ReportRequest> getAllReport(String uuid) throws TripBookingException, CurrentUserSessionException,DriverException;
+
+	ReportRequest getReport(Integer ReportId,String uuid) throws TripBookingException, CurrentUserSessionException,DriverException;
+
+	String updateReport(ReportRequest report, String uuid) throws TripBookingException, CurrentUserSessionException,DriverException;
+
 }

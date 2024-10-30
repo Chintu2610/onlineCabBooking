@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cab.Exception.AdminException;
@@ -15,12 +16,17 @@ import com.cab.Exception.CurrentUserSessionException;
 import com.cab.Exception.CustomerException;
 import com.cab.Exception.TripBookingException;
 import com.cab.Model.Admin;
+import com.cab.Model.Cab;
+import com.cab.Model.CabDetails;
 import com.cab.Model.CountsForAdminDashboard;
 import com.cab.Model.CurrentUserSession;
 import com.cab.Model.Customer;
 import com.cab.Model.Driver;
+import com.cab.Model.Price;
+import com.cab.Model.RidesData;
 import com.cab.Model.TripBooking;
 import com.cab.Repositary.AdminRepo;
+import com.cab.Repositary.CabRepo;
 import com.cab.Repositary.CurrentUserSessionRepo;
 import com.cab.Repositary.CustomerRepo;
 import com.cab.Repositary.DriverRepo;
@@ -40,10 +46,11 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private TripBookingRepo tripbookingRepo;
-
+	@Autowired
+	private CabRepo cabrepo;
 	@Autowired
 	private CurrentUserSessionRepo currRepo;
-	
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	@Override
 	public Admin insertAdmin(Admin admin,String currRole) throws AdminException {
 
@@ -52,7 +59,12 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Admin> adminopt = adminRepo.findByEmail(admin.getEmail());
 		if(cust.isPresent() || driver.isPresent() || adminopt.isPresent()) {
 			throw new AdminException("Already Registered user, please login.");
-		}		
+		}	
+		if(currRole.equalsIgnoreCase("admin")) {
+			admin.setApprovalStatus("approved");
+		}
+		String encryptedPassword = passwordEncoder.encode(admin.getPassword());
+		admin.setPassword(encryptedPassword);
 			return adminRepo.save(admin);		
 	}
 
@@ -246,6 +258,7 @@ public class AdminServiceImpl implements AdminService {
 		            counts.setNoOfDrivers(((Number) row[3]).intValue());
 		            counts.setNoOfCab(((Number) row[4]).intValue());
 		            counts.setNoOfVendors(((Number) row[5]).intValue());
+		            counts.setNoOfReports(((Number) row[6]).intValue());
 		            return counts;
 		        }
 		        return null; // Or handle this case as needed}
@@ -340,5 +353,35 @@ public class AdminServiceImpl implements AdminService {
 		} else {
 			throw new CurrentUserSessionException("Driver is Not Logged In Or User is not Admin");
 		}
+	}
+
+	@Override
+	public List<RidesData> getAllTripsForApp() {
+		String[] titles= {"Recommended","Popular","Economy"};
+		List<RidesData> alldata=new ArrayList<>();
+		List<Cab> allCabs= cabrepo.findAll();
+		List<CabDetails> AllcabDetails=new ArrayList<>();
+		for(int i=0;i<allCabs.size();i++)
+		{
+			Cab curCab=allCabs.get(i);
+			Price price =new Price();
+			CabDetails cabDetails=new CabDetails();
+			
+			price.setCurrency("₹");
+			price.setPerKm(String.valueOf( curCab.getPerKmRate()));
+			price.setPerMinute(String.valueOf( curCab.getPerKmRate()));
+			
+			cabDetails.setId(curCab.getCabId());
+			cabDetails.setType(curCab.getCarType());
+			cabDetails.setMaxPassengers(4);
+			cabDetails.setPrice(price);
+			cabDetails.setDescription("Good cars, good prices");
+			AllcabDetails.add(cabDetails);
+		}
+		RidesData ridesData=new RidesData();
+		ridesData.setTitle("Recommended");
+		ridesData.setData(AllcabDetails);
+		alldata.add(ridesData);
+		return alldata;
 	}
 }

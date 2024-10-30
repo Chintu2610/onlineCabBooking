@@ -14,8 +14,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReportRequest {
+	private Integer reportId;
     private Integer tripBookingId;
     private Integer driverId;
+    private String driverUserName;
     private String complaint_by;
     private String subject;
     private String description;
