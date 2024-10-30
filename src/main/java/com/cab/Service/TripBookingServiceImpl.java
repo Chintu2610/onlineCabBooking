@@ -454,14 +454,103 @@ public class TripBookingServiceImpl implements TripBookingService{
 		
 		return null;
 	}
-	
-	
-	
-	
-	
 
-	
 
+	@Override
+	public List<ReportRequest> getAllReport(String uuid)
+			throws TripBookingException, CurrentUserSessionException, DriverException {
+		// TODO Auto-generated method stub
+		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
+		if(validUser.isPresent()) {
+			String currRole=validUser.get().getCurrRole();
+			List<Report> allreport=new ArrayList<>();
+			List<ReportRequest> allreport1=new ArrayList<>();
+			if(currRole.equalsIgnoreCase("customer")) {
+				allreport= reportRepo.findBycustomerId( validUser.get().getCurrUserId());
+			}else if(currRole.equalsIgnoreCase("admin"))
+			{
+				allreport= reportRepo.findAll();
+			}else if(currRole.equalsIgnoreCase("driver"))
+			{
+				allreport=reportRepo.findByDriverId( validUser.get().getCurrUserId());
+				
+			}else if(currRole.equalsIgnoreCase("vendor"))
+			{
+				allreport=reportRepo.findByVendor( validUser.get().getEmail());
+			}
+			for(Report report:allreport)
+			{
+				ReportRequest tempRequest=new ReportRequest();
+				tempRequest.setReportId(report.getId());
+				tempRequest.setComplaint_by(report.getCustomer().getEmail());
+				tempRequest.setCreated_at(report.getCreated_at());
+				tempRequest.setDescription(report.getDescription());
+				tempRequest.setDriverUserName(report.getDriver().getUserName());
+				tempRequest.setStatus(report.getStatus());
+				tempRequest.setSubject(report.getSubject());
+				tempRequest.setTripBookingId(report.getTrip().getTripBookingId());
+				tempRequest.setUpdated_at(report.getUpdated_at());
+				allreport1.add(tempRequest);
+			}
+			return allreport1;
+		}else {
+			throw new CurrentUserSessionException("User is not logged in");
+		}
+		
+	}
+
+
+	@Override
+	public ReportRequest getReport(Integer reportId,String uuid)
+			throws TripBookingException, CurrentUserSessionException, DriverException {
+		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
+		if(validUser.isPresent()) {
+			Optional<Report> reportopt=reportRepo.findById(reportId);
+			if(reportopt.isPresent())
+			{
+				Report report=reportopt.get();
+				ReportRequest reportResponse=new ReportRequest();
+				reportResponse.setReportId(report.getId());
+				reportResponse.setComplaint_by(report.getCustomer().getEmail());
+				reportResponse.setDescription(report.getDescription());
+				reportResponse.setDriverUserName(report.getDriver().getUserName());
+				reportResponse.setStatus(report.getStatus());
+				reportResponse.setSubject(report.getSubject());
+				reportResponse.setDriverId(report.getDriver().getDriverId());
+				reportResponse.setTripBookingId(report.getTrip().getTripBookingId());
+				return reportResponse;
+			}
+		}else {
+			throw new CurrentUserSessionException("User is not logged in");
+		}
+		return null;
+	}
+
+
+	@Override
+	public String updateReport(ReportRequest req, String uuid)
+			throws TripBookingException, CurrentUserSessionException, DriverException {
+		Optional<CurrentUserSession> validUser = currRepo.findByUuid(uuid);
+		if(validUser.isPresent()) {
+			
+			Optional<Report> reportopt=reportRepo.findById(req.getReportId());
+			if(reportopt.isPresent()) {
+			Report report=reportopt.get();
+			report.setDescription(req.getDescription());
+			report.setSubject(req.getSubject());
+			report.setStatus(req.getStatus());
+			report.setUpdated_at(LocalDateTime.now());
+			reportRepo.save(report);
+			}else
+			{
+				return "No report present with this id.";
+			}
+		}else {
+			return "User is not logged in";
+		}
+		
+		return null;
+	}
 }
 
 

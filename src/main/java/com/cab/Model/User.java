@@ -21,4 +21,5 @@ public abstract class User {
 	private String userRole;
 	private String firstName;
 	private String lastName;
+	private String gender;
 }

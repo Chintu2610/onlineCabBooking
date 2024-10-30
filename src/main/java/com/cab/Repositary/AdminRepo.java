@@ -22,7 +22,8 @@ public interface AdminRepo extends JpaRepository<Admin, Integer>{
             "(SELECT COUNT(*) FROM trip_booking WHERE MONTH(from_date_time) = MONTH(CURRENT_DATE)) AS noOfBookingsLastMonth, " +
             "(SELECT COUNT(*) FROM driver) AS noOfDrivers, " +
             "(SELECT COUNT(*) FROM cab) AS noOfCab, "
-            + "(SELECT COUNT(*) FROM admin where user_role='vendor') AS noOfVendor " ,
+            + "(SELECT COUNT(*) FROM admin where user_role='vendor') AS noOfVendor, "
+            + "(SELECT COUNT(*) FROM report) AS noOfReport" ,
             nativeQuery = true)
     List<Object[]> getCountsForAdminDashboard();
     @Query("select a from Admin a where a.userRole = 'Vendor'")
@@ -36,7 +37,10 @@ public interface AdminRepo extends JpaRepository<Admin, Integer>{
             "(SELECT COUNT(*) FROM trip_booking WHERE MONTH(from_date_time) = MONTH(CURRENT_DATE)) AS noOfBookingsLastMonth, " +
             "(SELECT COUNT(*) FROM driver WHERE owner_email = :vendorEmail) AS noOfDrivers, " +
             "(SELECT COUNT(*) FROM cab WHERE owner_email = :vendorEmail) AS noOfCab, " +
-            "(SELECT COUNT(*) FROM admin WHERE user_role = 'vendor') AS noOfVendor " +
+            "(SELECT COUNT(*) FROM admin WHERE user_role = 'vendor') AS noOfVendor, "
+            + "(SELECT COUNT(1) FROM report r " +
+            "INNER JOIN driver d ON r.driver_id = d.driver_id " +           
+            "WHERE  d.owner_email like :vendorEmail) AS noOfReport " +
             "FROM DUAL",
             nativeQuery = true)
 List<Object[]> getCountsForVendorDashboard(@Param("vendorEmail") String vendorEmail);
@@ -46,7 +50,8 @@ List<Object[]> getCountsForVendorDashboard(@Param("vendorEmail") String vendorEm
             "(SELECT COUNT(*) FROM trip_booking WHERE MONTH(from_date_time) = MONTH(CURRENT_DATE)) AS noOfBookingsLastMonth, " +
             "(SELECT COUNT(*) FROM driver) AS noOfDrivers, " +
             "(SELECT COUNT(*) FROM cab) AS noOfCab, "
-            + "(SELECT SUM(price) FROM trip_booking where driver_driver_id=:driverId and curr_status='Completed') AS total_earnings" ,             
+            + "(SELECT SUM(price) FROM trip_booking where driver_driver_id=:driverId and curr_status='Completed') AS total_earnings,"
+            + "(SELECT COUNT(*) FROM report where driver_id=:driverId) AS noOfReport" ,             
             nativeQuery = true)
 	List<Object[]> getCountsForDriverDashboard(@Param("driverId") int driverId);
 }

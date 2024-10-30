@@ -28,7 +28,6 @@ public class LoginController {
 	
 	@PostMapping("/Login")
 	public ResponseEntity<CurrentUserSession> loginHandler(@RequestBody UserLoginDTO dto) throws CustomerException, AdminException {
-
 		return new ResponseEntity<CurrentUserSession>(userlogService.login(dto), HttpStatus.OK);
 	}	
 	

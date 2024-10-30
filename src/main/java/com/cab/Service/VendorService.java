@@ -20,5 +20,7 @@ public interface VendorService {
 	Admin updateVendor(Admin admin, String uuid) throws VendorException, CurrentUserSessionException;
 
 	Admin deleteVendor(Integer vendorId, String uuid) throws VendorException, CurrentUserSessionException;
+
+	String approveVendor(String vendorId, String uuid) throws VendorException, CurrentUserSessionException;
 	
 }

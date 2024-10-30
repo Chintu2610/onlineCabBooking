@@ -96,10 +96,6 @@ public class VendorServiceImpl implements VendorService{
 			Optional<Admin> admn = admnRepo.findById(vendorId);
 			if(admn.isPresent()) {
 				Admin updatingVendor = admn.get();
-//				List<TripBooking> allTrips= updatingdriver.getTrips();
-//				if (allTrips != null && !allTrips.isEmpty()) {
-//				    tripbookingRepo.deleteAll(allTrips);
-//				}
 				admnRepo.delete(updatingVendor);
 				return updatingVendor;
 			}
@@ -110,6 +106,26 @@ public class VendorServiceImpl implements VendorService{
 		else {
 			throw new CurrentUserSessionException("User is Not Logged In");
 		}
+	}
+	@Override
+	public String approveVendor(String vendorId, String uuid) throws VendorException, CurrentUserSessionException {
+		Optional<CurrentUserSession> validCustomer = currRepo.findByUuid(uuid);
+		if(validCustomer.isPresent()) {
+			Optional<Admin> adn = admnRepo.findById(Integer.parseInt(vendorId));
+			if(adn.isPresent()) {
+				Admin updatingAdmin = adn.get();
+				updatingAdmin.setApprovalStatus("approved");
+				  admnRepo.save(updatingAdmin);
+				  return "Successfully approved";
+			}
+			else {
+				return ("No such vendor present.");
+			}
+		}
+		else {
+			return ("User is Not Logged In");
+		}
+	
 	}
 
 }

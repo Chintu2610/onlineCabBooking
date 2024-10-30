@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cab.Model.Admin;
@@ -22,18 +23,21 @@ public class ChangePasswordService {
 	DriverRepo driverRepo;
 	@Autowired
 	AdminRepo adminRepo;
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 // Add URL mapping to handle POST requests
     public boolean changePassword(String email, String newPassword) {
         // Retrieve the list of users by username
         Optional<Customer> userOptional = repository.findByEmail(email);
         Optional<Driver> optionalDriver=driverRepo.findByEmail(email);
 		Optional<Admin> optionalAdmin=adminRepo.findByEmail(email);
-        
+		String encryptedPassword = passwordEncoder.encode(newPassword);
         // If no users found, return false indicating password change failure
 		if(userOptional.isPresent() )
 		{
 			Customer user = userOptional.get();
-	        user.setPassword(newPassword);
+			
+    		
+	        user.setPassword(encryptedPassword);
 	        repository.save(user);
 			return true;
 		}
@@ -41,7 +45,7 @@ public class ChangePasswordService {
 		if(optionalDriver.isPresent() )
 		{
 			Driver driver = optionalDriver.get();
-			driver.setPassword(newPassword);
+			driver.setPassword(encryptedPassword);
 			driverRepo.save(driver);
 			return true;
 		}
@@ -49,7 +53,7 @@ public class ChangePasswordService {
 		if(optionalAdmin.isPresent() )
 		{
 			Admin admin = optionalAdmin.get();
-			admin.setPassword(newPassword);
+			admin.setPassword(encryptedPassword);
 			adminRepo.save(admin);
 			return true;
 		}

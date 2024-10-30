@@ -12,6 +12,7 @@ import com.cab.Model.Admin;
 import com.cab.Model.Cab;
 import com.cab.Model.CountsForAdminDashboard;
 import com.cab.Model.Customer;
+import com.cab.Model.RidesData;
 import com.cab.Model.TripBooking;
 
 
@@ -40,5 +41,7 @@ public interface AdminService {
 	List<TripBooking> getTripsDriverwise(Integer driverId, String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException;
 
 	List<TripBooking> getTripsVendorwise(Integer vendorId, String uuid) throws TripBookingException, CustomerException, CurrentUserSessionException;
+
+	List<RidesData> getAllTripsForApp();
 	
 }

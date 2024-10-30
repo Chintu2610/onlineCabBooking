@@ -1,0 +1,77 @@
+2024-09-27 20:19:08 INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2024-09-27 20:19:08 INFO  com.cab.DemoApplication - Starting DemoApplication using Java 17.0.9 with PID 7936 (C:\Users\byama\Desktop\Documents\WebLabs Projects\CabBooking\onlineCabBooking\onlineCabBooking\target\classes started by byama in C:\Users\byama\Desktop\Documents\WebLabs Projects\CabBooking\onlineCabBooking\onlineCabBooking)
+2024-09-27 20:19:08 INFO  com.cab.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2024-09-27 20:19:08 INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-09-27 20:19:08 INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-09-27 20:19:12 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-27 20:19:13 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 144 ms. Found 13 JPA repository interfaces.
+2024-09-27 20:19:15 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 1996 (http)
+2024-09-27 20:19:15 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-1996"]
+2024-09-27 20:19:15 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-09-27 20:19:15 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.7]
+2024-09-27 20:19:15 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-09-27 20:19:15 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 6846 ms
+2024-09-27 20:19:16 INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-27 20:19:16 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.1.7.Final
+2024-09-27 20:19:16 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-09-27 20:19:16 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@41e81a03
+2024-09-27 20:19:16 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-09-27 20:19:17 INFO  SQL dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-09-27 20:19:17 WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-09-27 20:19:18 INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-27 20:19:18 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-27 20:19:20 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-27 20:19:20 INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5e39691c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@537634e5, org.springframework.security.web.context.SecurityContextHolderFilter@2a3ccb57, org.springframework.security.web.header.HeaderWriterFilter@6383b048, org.springframework.security.web.authentication.logout.LogoutFilter@329b8133, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a87441b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@53131d15, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@37f7123d, org.springframework.security.web.access.ExceptionTranslationFilter@626bdc07, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@71dd3308]
+2024-09-27 20:19:21 INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-09-27 20:19:21 INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-09-27 20:19:21 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-1996"]
+2024-09-27 20:19:21 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 1996 (http) with context path ''
+2024-09-27 20:19:22 INFO  com.cab.DemoApplication - Started DemoApplication in 13.738 seconds (process running for 15.67)
+2024-09-27 20:19:23 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-27 20:19:23 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-09-27 20:19:23 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 6 ms
+2024-09-27 20:19:25 INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-09-27 20:19:25 INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-1996"]
+2024-09-27 20:19:25 INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2024-09-27 20:19:25 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-09-27 20:19:25 INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-1996"]
+2024-09-27 20:19:25 INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-1996"]
+2024-09-27 20:19:25 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-27 20:19:25 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-09-27 20:19:25 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-09-27 21:02:35 INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2024-09-27 21:02:35 INFO  com.cab.DemoApplication - Starting DemoApplication using Java 17.0.9 with PID 9356 (C:\Users\byama\Desktop\Documents\WebLabs Projects\CabBooking\onlineCabBooking\onlineCabBooking\target\classes started by byama in C:\Users\byama\Desktop\Documents\WebLabs Projects\CabBooking\onlineCabBooking\onlineCabBooking)
+2024-09-27 21:02:35 INFO  com.cab.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+2024-09-27 21:02:35 INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-09-27 21:02:35 INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-09-27 21:02:38 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-27 21:02:38 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 210 ms. Found 13 JPA repository interfaces.
+2024-09-27 21:02:39 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 1996 (http)
+2024-09-27 21:02:39 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-1996"]
+2024-09-27 21:02:39 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-09-27 21:02:39 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.7]
+2024-09-27 21:02:40 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-09-27 21:02:40 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4083 ms
+2024-09-27 21:02:40 INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-27 21:02:40 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.1.7.Final
+2024-09-27 21:02:41 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-09-27 21:02:41 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@18b91630
+2024-09-27 21:02:41 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-09-27 21:02:41 INFO  SQL dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-09-27 21:02:41 WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-09-27 21:02:43 INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-27 21:02:43 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-27 21:02:45 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-27 21:02:45 INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@52b80a19, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@e962732, org.springframework.security.web.context.SecurityContextHolderFilter@19878083, org.springframework.security.web.header.HeaderWriterFilter@1efae571, org.springframework.security.web.authentication.logout.LogoutFilter@520ba6d9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@476c5546, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2cfbb349, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2fccda88, org.springframework.security.web.access.ExceptionTranslationFilter@1c346462, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@79b8c026]
+2024-09-27 21:02:47 INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-09-27 21:02:47 INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-09-27 21:02:47 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-1996"]
+2024-09-27 21:02:47 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 1996 (http) with context path ''
+2024-09-27 21:02:47 INFO  com.cab.DemoApplication - Started DemoApplication in 12.185 seconds (process running for 14.405)
+2024-09-27 21:02:49 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-27 21:02:49 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-09-27 21:02:49 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-09-27 21:05:38 WARN  o.s.web.servlet.PageNotFound - No mapping for GET /getAllTripsForApp
+2024-09-27 21:05:38 WARN  o.s.web.servlet.PageNotFound - No endpoint GET /getAllTripsForApp.
+2024-09-27 21:05:38 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.servlet.NoHandlerFoundException: No endpoint GET /getAllTripsForApp.]
+2024-09-27 22:54:59 WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m46s289ms553µs799ns).

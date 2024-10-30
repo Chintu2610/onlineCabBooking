@@ -75,6 +75,18 @@ public class TripController {
 	public ResponseEntity<String>  submitReport(@RequestParam("uuid") String uuid,@RequestBody ReportRequest report) throws TripBookingException, CurrentUserSessionException,DriverException{
 		return new ResponseEntity<String>(tripBookingService.submitReport(report, uuid),HttpStatus.OK);
 	}
+	@PutMapping("/updateReport")
+	public ResponseEntity<String>  updateReport(@RequestParam("uuid") String uuid,@RequestBody ReportRequest report) throws TripBookingException, CurrentUserSessionException,DriverException{
+		return new ResponseEntity<String>(tripBookingService.updateReport(report, uuid),HttpStatus.OK);
+	}
+	@GetMapping("/getAllReport")
+	public ResponseEntity<List<ReportRequest>>  getAllReport(@RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException,DriverException{
+		return new ResponseEntity<List<ReportRequest>>(tripBookingService.getAllReport( uuid),HttpStatus.OK);
+	}
+	@GetMapping("/viewReport")
+	public ResponseEntity<ReportRequest>  viewReport(@RequestParam("reportId") Integer reportId,@RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException,DriverException{
+		return new ResponseEntity<ReportRequest>(tripBookingService.getReport(reportId, uuid),HttpStatus.OK);
+	}
 	@GetMapping("/viewRatingDriverWise")
 	public ResponseEntity<List<TripBooking>> viewRatingDriverWise(@RequestParam("driverId") int driverId, @RequestParam("uuid") String uuid) throws TripBookingException, CurrentUserSessionException{
 		return new ResponseEntity<List<TripBooking>>(tripBookingService.viewRatingDriverWise(driverId, uuid),HttpStatus.OK);
